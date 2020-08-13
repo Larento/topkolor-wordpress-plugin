@@ -33,5 +33,5 @@ function tk_portfolio_item() {
   );
   register_post_type( 'product', $args ); 
 }
-add_action( 'init', 'my_custom_post_product' );
+add_action( 'init', 'tk_portfolio_item' );
 ?>
