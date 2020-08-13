@@ -7,19 +7,19 @@
  * License: GNU General Public License v2 or later
  */
 
-function tk_custom_taxonomy_style() {
+function tk_custom_taxonomy_product_style() {
   $labels = [
-		'name'              => _x('Styles', 'taxonomy general name'),
-    'singular_name'     => _x('Style', 'taxonomy singular name'),
-    'search_items'      => __('Search Styles'),
-    'all_items'         => __('All Styles'),
-    'parent_item'       => __('Parent Style'),
-    'parent_item_colon' => __('Parent Style:'),
-    'edit_item'         => __('Edit Style'),
-    'update_item'       => __('Update Style'),
-    'add_new_item'      => __('Add New Style'),
-    'new_item_name'     => __('New Style Name'),
-    'menu_name'         => __('Styles'),
+		'name'              => _x('Product Styles', 'taxonomy general name'),
+    'singular_name'     => _x('Product Style', 'taxonomy singular name'),
+    'search_items'      => __('Search Product Styles'),
+    'all_items'         => __('All Product Styles'),
+    'parent_item'       => __('Parent Product Style'),
+    'parent_item_colon' => __('Parent Product Style:'),
+    'edit_item'         => __('Edit Product Style'),
+    'update_item'       => __('Update Product Style'),
+    'add_new_item'      => __('Add New Product Style'),
+    'new_item_name'     => __('New Product Style Name'),
+    'menu_name'         => __('Product '),
   ];
   $args = [
     'hierarchical'      => false,
@@ -32,9 +32,38 @@ function tk_custom_taxonomy_style() {
       'with_front'        => false,
     ],
   ];
-  register_taxonomy('style', ['portfolio_item'], $args);
+  register_taxonomy('product_style', ['portfolio_item'], $args);
 };
-add_action('init', 'tk_custom_taxonomy_style');
+add_action('init', 'tk_custom_taxonomy_product_style');
+
+function tk_custom_taxonomy_product_kind() {
+  $labels = [
+		'name'              => _x('Product Kinds', 'taxonomy general name'),
+    'singular_name'     => _x('Product Kind', 'taxonomy singular name'),
+    'search_items'      => __('Search Product Kinds'),
+    'all_items'         => __('All Product Kinds'),
+    'parent_item'       => __('Parent Product Kind'),
+    'parent_item_colon' => __('Parent Product Kind:'),
+    'edit_item'         => __('Edit Product Kind'),
+    'update_item'       => __('Update Product Kind'),
+    'add_new_item'      => __('Add New Product Kind'),
+    'new_item_name'     => __('New Product Kind Name'),
+    'menu_name'         => __('Product Kind'),
+  ];
+  $args = [
+    'hierarchical'      => false,
+    'labels'            => $labels,
+    'show_ui'           => true,
+    'show_admin_column' => true,
+    'query_var'         => true,
+    'rewrite'           => [
+      'slug'              => NULL,
+      'with_front'        => false,
+    ],
+  ];
+  register_taxonomy('product_kind', ['portfolio_item'], $args);
+};
+add_action('init', 'tk_custom_taxonomy_product_kind');
 
 function tk_custom_post_type_portfolio_item() {
   $labels = [
@@ -47,9 +76,9 @@ function tk_custom_post_type_portfolio_item() {
     'menu_position'     => 5,
     'supports'          => ['title', 'editor', 'thumbnail', 'excerpt'],
     'has_archive'       => true,
-    'taxonomies'        => ['post_tag','styles'],
+    'taxonomies'        => ['product_style', 'product_kind'],
     'rewrite'           => [
-      'slug'              => '/portfolio/%styles%',
+      'slug'              => '/portfolio/%product_style%/%product_kind%',
       'with_front'        => false,
     ],
   ];
