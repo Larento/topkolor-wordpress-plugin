@@ -88,10 +88,10 @@ function tk_custom_post_type_portfolio_item() {
     'supports'          => ['title', 'editor', 'thumbnail', 'excerpt'],
     'taxonomies'        => ['category'],
     'rewrite'           => [
-      'slug'              => 'portfolio', // /%product_style%-%product_kind%
+      'slug'              => 'portfolio/%product_style%-%product_kind%', // 
       'with_front'        => false,
     ],
-    'has_archive'       => true,
+    'has_archive'       => 'portfolio/%product_style%-%product_kind%',
   ];
   register_post_type( 'portfolio_item', $args ); 
 };
