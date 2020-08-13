@@ -27,7 +27,10 @@ function tk_custom_taxonomy_style() {
     'show_ui'           => true,
     'show_admin_column' => true,
     'query_var'         => true,
-    'rewrite'           => ['slug' => 'style'],
+    'rewrite'           => [
+      'slug' => NULL,
+      'with_front' => false,
+    ],
   ];
   register_taxonomy('style', ['portfolio_item'], $args);
 }
