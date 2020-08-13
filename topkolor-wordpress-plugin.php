@@ -19,7 +19,7 @@ function tk_custom_taxonomy_product_style() {
     'update_item'       => __('Update Product Style'),
     'add_new_item'      => __('Add New Product Style'),
     'new_item_name'     => __('New Product Style Name'),
-    'menu_name'         => __('Product '),
+    'menu_name'         => __('Product Styles'),
   ];
   $args = [
     'hierarchical'      => false,
