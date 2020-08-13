@@ -49,7 +49,7 @@ function tk_custom_post_type_portfolio_item() {
     'has_archive'       => true,
     'taxonomies'        => ['post_tag','styles'],
     'rewrite'           => [
-      'slug'              => '%styles%',
+      'slug'              => '/portfolio/%styles%',
       'with_front'        => false,
     ],
   ];
