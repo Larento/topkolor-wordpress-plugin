@@ -104,13 +104,13 @@ add_filter('post_type_link', 'product_style_and_kind_permalink_structure', 10, 4
 function product_style_and_kind_permalink_structure($post_link, $post, $leavename, $sample) {
   $taxonomies = ['product_style', 'product_kind'];
   foreach ($taxonomies as $taxonomy) {
-    if ( strpos($post_link, "%$taxonomy%") === true ) {
-      $taxonomy_term = get_the_terms($post->ID, $taxonomy);
-    };
-    if ( empty($taxonomy_term) === false ) {
-      $post_link = str_replace("%$taxonomy%", array_pop($taxonomy_term)->slug, $post_link);
-    } else {
-      $post_link = str_replace("%$taxonomy%", 'uncategorized', $post_link);
+    if ( strpos($post_link, "%product_style%") === true ) {
+      $taxonomy_terms = get_the_terms($post->ID, $taxonomy);
+      if ( empty($taxonomy_terms) === false ) {
+        $post_link = str_replace("%$taxonomy%", array_pop($taxonomy_terms)->slug, $post_link);
+      } else {
+        $post_link = str_replace("%$taxonomy%", 'uncategorized', $post_link);
+      };
     };
   };
   return $post_link;
