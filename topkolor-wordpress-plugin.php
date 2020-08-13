@@ -107,7 +107,7 @@ function product_style_and_kind_permalink_structure($post_link, $post, $leavenam
     if ( strpos($post_link, "%$taxonomy%") === true ) {
       $taxonomy_term = get_the_terms($post->ID, $taxonomy);
     };
-    if ( 1 === 1/*empty($taxonomy_term) === false*/ ) {
+    if ( empty($taxonomy_term) === false ) {
       $post_link = str_replace("%$taxonomy%", array_pop($taxonomy_term)->slug, $post_link);
     } else {
       $post_link = str_replace("%$taxonomy%", 'uncategorized', $post_link);
