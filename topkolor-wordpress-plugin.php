@@ -34,7 +34,7 @@ function tk_custom_taxonomy_product_style() {
   ];
   register_taxonomy('product_styles', ['portfolio_item'], $args);
 };
-add_action('init', 'tk_custom_taxonomy_product_style');
+//add_action('init', 'tk_custom_taxonomy_product_style');
 
 function tk_custom_taxonomy_product_kind() {
   $labels = [
@@ -63,7 +63,7 @@ function tk_custom_taxonomy_product_kind() {
   ];
   register_taxonomy('product_kinds', ['portfolio_item'], $args);
 };
-add_action('init', 'tk_custom_taxonomy_product_kind');
+//add_action('init', 'tk_custom_taxonomy_product_kind');
 
 function tk_custom_post_type_portfolio_item() {
   $labels = [
@@ -77,7 +77,7 @@ function tk_custom_post_type_portfolio_item() {
     'supports'          => ['title', 'editor', 'thumbnail', 'excerpt'],
     'has_archive'       => true,
     'rewrite'           => [
-      'slug'              => '/portfolio/%product_style%/%product_kind%',
+      'slug'              => '/portfolio',
       'with_front'        => false,
     ],
   ];
