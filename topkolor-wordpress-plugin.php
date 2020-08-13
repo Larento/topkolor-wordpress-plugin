@@ -67,8 +67,17 @@ add_action('init', 'tk_custom_taxonomy_product_kind');
 
 function tk_custom_post_type_portfolio_item() {
   $labels = [
-    'name'              => _x('Portfolio Item', 'post type general name' ),
-    'menu_name'         => 'Portfolio Items',
+    'name'              => _x('Portfolio Items', 'post type general name' ),
+    'singular_name'     => _x( 'Portfolio Item', 'post type singular name' ),
+    'add_new'           => _x( 'Add New', 'portfolio' ),
+    'add_new_item'      => __( 'Add New Item' ),
+    'edit_item'         => __( 'Edit Item' ),
+    'new_item'          => __( 'New Item' ),
+    'all_items'         => __( 'All Items' ),
+    'view_item'         => __( 'View Item' ),
+    'search_items'      => __( 'Search Items' ), 
+    'parent_item_colon' => '',
+    'menu_name'         => 'Portfolio Items'
   ];
   $args = [
     'labels'            => $labels,
@@ -77,11 +86,19 @@ function tk_custom_post_type_portfolio_item() {
     'supports'          => ['title', 'editor', 'thumbnail', 'excerpt'],
     'has_archive'       => true,
     'rewrite'           => [
-      'slug'              => '/portfolio',
+      'slug'              => '/portfolio/%product_style%/%postname%/',
       'with_front'        => false,
     ],
   ];
   register_post_type( 'portfolio_item', $args ); 
 };
 add_action( 'init', 'tk_custom_post_type_portfolio_item' );
+
+class taxonomy_member {
+  public $taxonomy;
+  public $name;
+  public $slug;
+}
+
+
 ?>
