@@ -91,7 +91,7 @@ function tk_custom_post_type_portfolio_item() {
       'slug'              => 'portfolio/%product_style%-%product_kind%', // 
       'with_front'        => false,
     ],
-    'has_archive'       => 'portfolio/%product_style%-%product_kind%',
+    'has_archive'       => 'portfolio',
   ];
   register_post_type( 'portfolio_item', $args ); 
 };
