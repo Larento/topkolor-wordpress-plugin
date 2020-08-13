@@ -100,17 +100,20 @@ class taxonomy_member {
   public $slug;
 }
 
-add_filter('post_type_link', 'projectcategory_permalink_structure', 10, 4);
-function projectcategory_permalink_structure($post_link, $post, $leavename, $sample) {
-    if (false !== strpos($post_link, '%projectscategory%')) {
-        $projectscategory_type_term = get_the_terms($post->ID, 'projectscategory');
-        if (!empty($projectscategory_type_term))
-            $post_link = str_replace('%projectscategory%', array_pop($projectscategory_type_term)->
-            slug, $post_link);
-        else
-            $post_link = str_replace('%projectscategory%', 'uncategorized', $post_link);
-    }
-    return $post_link;
+add_filter('post_type_link', 'product_style_and_kind_permalink_structure', 10, 4);
+function product_style_and_kind_permalink_structure($post_link, $post, $leavename, $sample) {
+  $taxonomies = ['product_style', 'product_kind'];
+  foreach ($taxonomies as $taxonomy) {
+    if ( strpos($post_link, "%$taxonomy%") === true ) {
+      $taxonomy_term = get_the_terms($post->ID, $taxonomy);
+    };
+    if ( empty($taxonomy_term) === false ) {
+      $post_link = str_replace("%$taxonomy%", array_pop($taxonomy_term)->slug, $post_link);
+    } else {
+      $post_link = str_replace("%$taxonomy%", 'uncategorized', $post_link);
+    };
+  };
+  return $post_link;
 }
 
 
