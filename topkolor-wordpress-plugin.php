@@ -28,27 +28,32 @@ function tk_custom_taxonomy_style() {
     'show_admin_column' => true,
     'query_var'         => true,
     'rewrite'           => [
-      'slug' => NULL,
-      'with_front' => false,
+      'slug'            => NULL,
+      'with_front'      => false,
     ],
   ];
   register_taxonomy('style', ['portfolio_item'], $args);
-}
+};
 add_action('init', 'tk_custom_taxonomy_style');
 
 function tk_custom_post_type_portfolio_item() {
   $labels = [
-    'name'               => _x( 'Portfolio Item', 'post type general name' ),
-    'menu_name'          => 'Portfolio Items',
+    'name'              => _x('Portfolio Item', 'post type general name' ),
+    'menu_name'         => 'Portfolio Items',
   ];
   $args = [
-    'labels'        => $labels,
-    'public'        => true,
-    'menu_position' => 5,
-    'supports'      => ['title', 'editor', 'thumbnail', 'excerpt'],
-    'has_archive'   => true,
+    'labels'            => $labels,
+    'public'            => true,
+    'menu_position'     => 5,
+    'supports'          => ['title', 'editor', 'thumbnail', 'excerpt'],
+    'has_archive'       => true,
+    'taxonomies'        => ['post_tag','styles'],
+    'rewrite'           => [
+      'slug'            => '%styles%',
+      'with_front'      => false,
+    ],
   ];
   register_post_type( 'portfolio_item', $args ); 
-}
+};
 add_action( 'init', 'tk_custom_post_type_portfolio_item' );
 ?>
