@@ -32,7 +32,7 @@ function tk_custom_taxonomy_product_style() {
       'with_front'        => false,
     ],
   ];
-  register_taxonomy('product_style', ['portfolio_item'], $args);
+  register_taxonomy('product_styles', ['portfolio_item'], $args);
 };
 add_action('init', 'tk_custom_taxonomy_product_style');
 
@@ -61,7 +61,7 @@ function tk_custom_taxonomy_product_kind() {
       'with_front'        => false,
     ],
   ];
-  register_taxonomy('product_kind', ['portfolio_item'], $args);
+  register_taxonomy('product_kinds', ['portfolio_item'], $args);
 };
 add_action('init', 'tk_custom_taxonomy_product_kind');
 
@@ -76,9 +76,9 @@ function tk_custom_post_type_portfolio_item() {
     'menu_position'     => 5,
     'supports'          => ['title', 'editor', 'thumbnail', 'excerpt'],
     'has_archive'       => true,
-    'taxonomies'        => ['product_style', 'product_kind'],
+    'taxonomies'        => ['post_tags', 'product_styles', 'product_kinds'],
     'rewrite'           => [
-      'slug'              => '/portfolio/%product_style%/%product_kind%',
+      'slug'              => '/portfolio/%product_styles%/%product_kinds%',
       'with_front'        => false,
     ],
   ];
