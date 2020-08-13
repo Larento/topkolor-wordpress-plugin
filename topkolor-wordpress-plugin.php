@@ -32,7 +32,7 @@ function tk_custom_taxonomy_product_style() {
       'with_front'        => false,
     ],
   ];
-  register_taxonomy('product_style', ['portfolio_item'], $args);
+  register_taxonomy('product_style', 'portfolio_item', $args);
 };
 add_action('init', 'tk_custom_taxonomy_product_style');
 
@@ -61,7 +61,7 @@ function tk_custom_taxonomy_product_kind() {
       'with_front'        => false,
     ],
   ];
-  register_taxonomy('product_kind', ['portfolio_item'], $args);
+  register_taxonomy('product_kind', 'portfolio_item', $args);
 };
 add_action('init', 'tk_custom_taxonomy_product_kind');
 
@@ -84,6 +84,10 @@ function tk_custom_post_type_portfolio_item() {
     'public'            => true,
     'menu_position'     => 5,
     'supports'          => ['title', 'editor', 'thumbnail', 'excerpt'],
+    'rewrite'           => [
+      'slug'              => 'portfolio/%product_style%/%product_kind%/', 
+      'with_front'        => false,
+    ],
     'has_archive'       => true,
   ];
   register_post_type( 'portfolio_item', $args ); 
@@ -94,6 +98,19 @@ class taxonomy_member {
   public $taxonomy;
   public $name;
   public $slug;
+}
+
+add_filter('post_type_link', 'projectcategory_permalink_structure', 10, 4);
+function projectcategory_permalink_structure($post_link, $post, $leavename, $sample) {
+    if (false !== strpos($post_link, '%projectscategory%')) {
+        $projectscategory_type_term = get_the_terms($post->ID, 'projectscategory');
+        if (!empty($projectscategory_type_term))
+            $post_link = str_replace('%projectscategory%', array_pop($projectscategory_type_term)->
+            slug, $post_link);
+        else
+            $post_link = str_replace('%projectscategory%', 'uncategorized', $post_link);
+    }
+    return $post_link;
 }
 
 
