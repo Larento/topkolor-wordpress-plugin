@@ -32,9 +32,9 @@ function tk_custom_taxonomy_product_style() {
       'with_front'        => false,
     ],
   ];
-  register_taxonomy('product_styles', ['portfolio_item'], $args);
+  register_taxonomy('product_style', ['portfolio_item'], $args);
 };
-//add_action('init', 'tk_custom_taxonomy_product_style');
+add_action('init', 'tk_custom_taxonomy_product_style');
 
 function tk_custom_taxonomy_product_kind() {
   $labels = [
@@ -61,9 +61,9 @@ function tk_custom_taxonomy_product_kind() {
       'with_front'        => false,
     ],
   ];
-  register_taxonomy('product_kinds', ['portfolio_item'], $args);
+  register_taxonomy('product_kind', ['portfolio_item'], $args);
 };
-//add_action('init', 'tk_custom_taxonomy_product_kind');
+add_action('init', 'tk_custom_taxonomy_product_kind');
 
 function tk_custom_post_type_portfolio_item() {
   $labels = [
