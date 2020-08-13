@@ -34,6 +34,7 @@ function tk_custom_taxonomy_product_style() {
   ];
   register_taxonomy('product_style', 'portfolio_item', $args);
 };
+
 add_action('init', 'tk_custom_taxonomy_product_style');
 
 function tk_custom_taxonomy_product_kind() {
@@ -63,6 +64,7 @@ function tk_custom_taxonomy_product_kind() {
   ];
   register_taxonomy('product_kind', 'portfolio_item', $args);
 };
+
 add_action('init', 'tk_custom_taxonomy_product_kind');
 
 function tk_custom_post_type_portfolio_item() {
@@ -92,13 +94,14 @@ function tk_custom_post_type_portfolio_item() {
   ];
   register_post_type( 'portfolio_item', $args ); 
 };
+
 add_action( 'init', 'tk_custom_post_type_portfolio_item' );
 
 class taxonomy_member {
   public $taxonomy;
   public $name;
   public $slug;
-}
+};
 
 add_filter('post_type_link', 'product_style_and_kind_permalink_structure', 10, 4);
 function product_style_and_kind_permalink_structure($post_link, $post, $leavename, $sample) {
@@ -114,7 +117,5 @@ function product_style_and_kind_permalink_structure($post_link, $post, $leavenam
     };
   };
   return $post_link;
-}
-
-
+};
 ?>
