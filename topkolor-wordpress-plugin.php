@@ -84,9 +84,9 @@ function tk_custom_post_type_portfolio_item() {
     'public'            => true,
     'menu_position'     => 5,
     'supports'          => ['title', 'editor', 'thumbnail', 'excerpt'],
-    'has_archive'       => true,
+    'has_archive'       => 'coole',
     'rewrite'           => [
-      'slug'              => '/portfolio/coole',
+      'slug'              => 'portfolio/coole',
       'with_front'        => false,
     ],
   ];
