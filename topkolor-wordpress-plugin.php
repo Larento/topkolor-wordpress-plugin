@@ -29,7 +29,7 @@ function tk_custom_taxonomy_product_style() {
     'query_var'         => true,
     'rewrite'           => [
       'slug'              => 'product_style',
-      'with_front'        => false,
+      'with_front'        => true,
     ],
   ];
   register_taxonomy('product_style', 'portfolio_item', $args);
@@ -59,7 +59,7 @@ function tk_custom_taxonomy_product_kind() {
     'query_var'         => true,
     'rewrite'           => [
       'slug'              => 'product_kind',
-      'with_front'        => false,
+      'with_front'        => true,
     ],
   ];
   register_taxonomy('product_kind', 'portfolio_item', $args);
