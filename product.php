@@ -18,7 +18,7 @@ function tk_custom_post_type_product($menu_name, $name, $slug) {
     'all_items'         => __( 'All Products' ),
     'view_item'         => __( 'View Product' ),
     'search_items'      => __( 'Search Products' ), 
-    'menu_name'         => __("$name Products"),
+    'menu_name'         => __( $menu_name ),
   ];
   $args = [
     'labels'            => $labels,
