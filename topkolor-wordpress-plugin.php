@@ -7,6 +7,9 @@
  * License: GNU General Public License v2 or later
  */
 
+include_once( get_template_directory() . '/product.php' );
+
+/*
 function tk_custom_taxonomy_product_style() {
   $labels = [
 		'name'              => _x('Product Styles', 'taxonomy general name'),
@@ -98,12 +101,6 @@ function tk_custom_post_type_portfolio_item() {
 
 add_action( 'init', 'tk_custom_post_type_portfolio_item' );
 
-class taxonomy_member {
-  public $taxonomy;
-  public $name;
-  public $slug;
-};
-
 add_filter('post_type_link', 'product_style_and_kind_permalink_structure', 10, 4);
 
 function product_style_and_kind_permalink_structure($post_link, $post, $leavename, $sample) {
@@ -119,5 +116,50 @@ function product_style_and_kind_permalink_structure($post_link, $post, $leavenam
     };
   };
   return $post_link;
+};
+*/
+$products = [
+  'Терраццо'            => [
+    'name'                => 'Terrazzo',
+    'slug'                => 'terrazzo',
+    'kinds'               => [
+      'Полы'                => 'floors',
+      'Столешницы'          => 'countertops',
+      'Подоконники'         => 'window-sills',
+      'Раковины'            => 'sinks',
+      'Панели'              => 'panels',
+    ],
+  ],
+
+  'Декоративный бетон'  => [
+    'name'                => 'Decorative Concrete',
+    'slug'                => 'decorative-concrete',
+    'kinds'               => [
+      'Полы'                => 'floors',
+      'Столешницы'          => 'countertops',
+      'Подоконники'         => 'window-sills',
+      'Раковины'            => 'sinks',
+      'Панели'              => 'panels',
+    ],
+  ],
+
+  'Микроцемент'         => [
+    'name'                => 'Micro Concrete',
+    'slug'                => 'micro-concrete',
+    'kinds'               => [
+      'Напольные покрытия'  => 'floor-coverings',
+      'Настенные покрытия'  => 'wall-coverings',
+      'Элементы интерьера'  => 'interior-elements',
+    ],
+  ],
+];
+
+foreach ($products as $key => $value) {
+  $name = $value['name'];
+  $slug = $value['slug'];
+  $kinds = $value['kinds'];
+  add_action( 'init',  function() use ($name, $slug, $kinds) {
+    tk_register_product_type($name, $slug, $kinds);
+  });
 };
 ?>
