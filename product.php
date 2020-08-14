@@ -46,7 +46,7 @@ function tk_custom_taxonomy_product_kind($name, $slug) {
     'update_item'       => __('Update Product Kind'),
     'add_new_item'      => __('Add New Product Kind'),
     'new_item_name'     => __('New Product Kind Name'),
-    'menu_name'         => __("$name Product Kind"),
+    'menu_name'         => __("$name Product Kinds"),
   ];
   $args = [
     'hierarchical'      => false,
