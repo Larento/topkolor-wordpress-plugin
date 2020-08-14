@@ -87,7 +87,7 @@ function tk_custom_post_type_portfolio_item() {
     'menu_position'     => 5,
     'supports'          => ['title', 'editor', 'thumbnail', 'excerpt'],
     'rewrite'           => [
-      'slug'              => 'portfolio/%product_style%-%product_kind%', // 
+      'slug'              => 'portfolio/%product_style%/', // 
       'with_front'        => false,
     ],
     'has_archive'       => 'portfolio',
@@ -104,6 +104,7 @@ class taxonomy_member {
 };
 
 add_filter('post_type_link', 'product_style_and_kind_permalink_structure', 10, 4);
+
 function product_style_and_kind_permalink_structure($post_link, $post, $leavename, $sample) {
   $taxonomies = ['product_style', 'product_kind'];
   foreach ($taxonomies as $taxonomy) {
