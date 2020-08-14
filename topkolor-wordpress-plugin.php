@@ -118,7 +118,7 @@ function product_style_and_kind_permalink_structure($post_link, $post, $leavenam
   return $post_link;
 };
 */
-$products = [
+$product_types = [
   'Терраццо'            => [
     'name'                => 'Terrazzo',
     'slug'                => 'terrazzo',
@@ -154,12 +154,20 @@ $products = [
   ],
 ];
 
-foreach ($products as $key => $value) {
-  $name = $value['name'];
-  $slug = $value['slug'];
-  $kinds = $value['kinds'];
-  add_action( 'init',  function() use ($name, $slug, $kinds) {
-    tk_register_product_type($name, $slug, $kinds);
-  });
+$tk_register = [];
+$tk_permalinks_filter = [];
+
+foreach ($product_types as $key => $type) {
+  $name = $type['name'];
+  $slug = $type['slug'];
+  $kinds = $type['kinds'];
+  $tk_register[$key] = function() use ($name, $slug, $kinds, $tk_permalinks_filter) {
+    tk_register_product_type($name, $slug, $kinds, $tk_permalinks_filter);
+  };
 };
+
+foreach ($tk_register as $register_func) {
+  add_action( 'init', $register_func );
+};
+
 ?>
