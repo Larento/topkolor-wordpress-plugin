@@ -15,15 +15,15 @@ function tk_custom_post_type_product($name, $slug) {
     'add_new_item'      => __( 'Add New Product' ),
     'edit_item'         => __( 'Edit Product' ),
     'new_item'          => __( 'New Product' ),
-    'all_items'         => __( 'All Product' ),
+    'all_items'         => __( 'All Products' ),
     'view_item'         => __( 'View Product' ),
-    'search_items'      => __( 'Search Product' ), 
+    'search_items'      => __( 'Search Products' ), 
     'menu_name'         => __("$name Products"),
   ];
   $args = [
     'labels'            => $labels,
     'public'            => true,
-    'menu_position'     => 0,
+    'menu_position'     => 1,
     'supports'          => ['title', 'editor', 'thumbnail', 'excerpt'],
     'has_archive'       => true,
     'rewrite'           => [
