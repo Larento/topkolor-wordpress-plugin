@@ -85,14 +85,10 @@ function tk_custom_post_type_permalinks($post_link, $post, $leavename, $sample, 
   return $post_link;
 };
 
-function tk_register_product_type($name, $slug, $kinds, &$tk_permalinks_filter) {
-  $tk_permalinks_filter[$name] = function ($post_link, $post, $leavename, $sample) use ($slug) {
-    tk_custom_post_type_permalinks($post_link, $post, $leavename, $sample, $slug);
-  };
+function tk_register_product_type($name, $slug, $kinds) {
   tk_custom_post_type_product($name, $slug);
   tk_custom_taxonomy_product_kind($name, $slug);
   tk_custom_taxonomy_add_terms($slug, $kinds);
-  //add_filter('post_type_link', $tk_permalinks_filter[$name], 10, 4);
 };
 ?>
 
