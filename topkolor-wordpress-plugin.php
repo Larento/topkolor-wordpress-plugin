@@ -22,7 +22,7 @@ function tk_custom_taxonomy_product_style() {
     'menu_name'         => __('Product Styles'),
   ];
   $args = [
-    'hierarchical'      => false,
+    'hierarchical'      => true,
     'labels'            => $labels,
     'show_ui'           => true,
     'show_admin_column' => true,
@@ -35,7 +35,7 @@ function tk_custom_taxonomy_product_style() {
   register_taxonomy('product_style', 'portfolio_item', $args);
 };
 
-add_action('init', 'tk_custom_taxonomy_product_style');
+//add_action('init', 'tk_custom_taxonomy_product_style');
 
 function tk_custom_taxonomy_product_kind() {
   $labels = [
@@ -52,14 +52,14 @@ function tk_custom_taxonomy_product_kind() {
     'menu_name'         => __('Product Kind'),
   ];
   $args = [
-    'hierarchical'      => false,
+    'hierarchical'      => true,
     'labels'            => $labels,
     'show_ui'           => true,
     'show_admin_column' => true,
     'query_var'         => true,
     'rewrite'           => [
-      'slug'              => 'product_kind',
-      'with_front'        => true,
+      'slug'              => 'portfolio',
+      'with_front'        => false,
     ],
   ];
   register_taxonomy('product_kind', 'portfolio_item', $args);
@@ -87,7 +87,7 @@ function tk_custom_post_type_portfolio_item() {
     'menu_position'     => 5,
     'supports'          => ['title', 'editor', 'thumbnail', 'excerpt'],
     'rewrite'           => [
-      'slug'              => 'portfolio/%product_style%',
+      'slug'              => '',
       'with_front'        => false,
     ],
     'has_archive'       => 'portfolio',
