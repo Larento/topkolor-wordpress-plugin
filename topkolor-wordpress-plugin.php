@@ -88,7 +88,7 @@ function tk_custom_post_type_portfolio_item() {
     'menu_position'     => 5,
     'supports'          => ['title', 'editor', 'thumbnail', 'excerpt'],
     'rewrite'           => [
-      'slug'              => '',
+      'slug'              => 'portfolio/style/kind',
       'with_front'        => false,
     ],
     'has_archive'       => 'portfolio',
