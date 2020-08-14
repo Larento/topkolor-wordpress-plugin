@@ -174,6 +174,6 @@ foreach ($tk_register as $register_func) {
 };
 
 foreach ($tk_permalinks_filter as $filter_func) {
-  //add_filter('post_type_link', $filter_func, 10, 4);
+  add_filter('post_type_link', $filter_func, 10, 4);
 };
 ?>

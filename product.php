@@ -74,14 +74,16 @@ function tk_custom_taxonomy_add_terms($slug, $kinds) {
 
 function tk_custom_post_type_permalinks($post_link, $post, $leavename, $sample, $slug) {
   $taxonomy_name = tk_taxonomy_name($slug);
+  /*
   if ( strpos($post_link, "%" . $taxonomy_name . "%") !== false ) {
     $taxonomy_terms = get_the_terms($post->ID, $taxonomy_name);
-    if ( empty($taxonomy_terms) === false ) {
+    if ( empty($taxonomy_terms) !== true ) {
       $post_link = str_replace("%" . $taxonomy_name . "%", array_pop($taxonomy_terms)->slug, $post_link);
     } else {
       $post_link = str_replace("%" . $taxonomy_name . "%", 'uncategorized', $post_link);
     };
   };
+  */
   return $post_link;
 };
 
