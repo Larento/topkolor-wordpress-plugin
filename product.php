@@ -92,7 +92,7 @@ function tk_register_product_type($name, $slug, $kinds, &$tk_permalinks_filter) 
   tk_custom_post_type_product($name, $slug);
   tk_custom_taxonomy_product_kind($name, $slug);
   tk_custom_taxonomy_add_terms($slug, $kinds);
-  add_filter('post_type_link', $tk_permalinks_filter[$name], 10, 4);
+  //add_filter('post_type_link', $tk_permalinks_filter[$name], 10, 4);
 };
 ?>
 
