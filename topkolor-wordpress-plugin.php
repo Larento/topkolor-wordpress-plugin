@@ -7,7 +7,7 @@
  * License: GNU General Public License v2 or later
  */
 
-include_once( get_template_directory() . '/product.php' );
+include_once( plugin_dir_path( __FILE__ ) . '/product.php' );
 
 /*
 function tk_custom_taxonomy_product_style() {
