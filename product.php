@@ -25,7 +25,7 @@ function tk_custom_post_type_product($name, $slug) {
     'public'            => true,
     'menu_position'     => 1,
     'supports'          => ['title', 'editor', 'thumbnail', 'excerpt'],
-    'has_archive'       => true,
+    'has_archive'       => $slug,
     'rewrite'           => [
       'slug'              => $slug . "/%" . tk_taxonomy_name($slug) . "%",
       'with_front'        => false,
