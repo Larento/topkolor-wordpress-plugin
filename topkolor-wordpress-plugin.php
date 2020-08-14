@@ -87,6 +87,7 @@ function tk_custom_post_type_portfolio_item() {
     'menu_position'     => 5,
     'supports'          => ['title', 'editor', 'thumbnail', 'excerpt'],
     'rewrite'           => [
+      'hierarchical'      => true,
       'slug'              => '',
       'with_front'        => false,
     ],
