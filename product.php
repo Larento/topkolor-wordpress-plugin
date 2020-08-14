@@ -15,10 +15,10 @@ function tk_custom_post_type_product($menu_name, $name, $slug) {
     'add_new_item'      => __( 'Add New Product' ),
     'edit_item'         => __( 'Edit Product' ),
     'new_item'          => __( 'New Product' ),
-    'all_items'         => __( 'All Products' ),
+    'all_items'         => __( $menu_name ),
     'view_item'         => __( 'View Product' ),
     'search_items'      => __( 'Search Products' ), 
-    'menu_name'         => __( $menu_name ),
+    'menu_name'         => __("$name Products"),
   ];
   $args = [
     'labels'            => $labels,
