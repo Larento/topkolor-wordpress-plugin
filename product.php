@@ -7,7 +7,7 @@ function tk_taxonomy_name($slug) {
   return tk_post_type_name($slug) . "_kind";
 }
 
-function tk_custom_post_type_product($name, $slug) {
+function tk_custom_post_type_product($menu_name, $name, $slug) {
   $labels = [
     'name'              => _x("$name Products", 'post type general name' ),
     'singular_name'     => _x( "$name Products", 'post type singular name' ),
@@ -85,8 +85,8 @@ function tk_custom_post_type_permalinks($post_link, $post, $leavename, $sample, 
   return $post_link;
 };
 
-function tk_register_product_type($name, $slug, $kinds) {
-  tk_custom_post_type_product($name, $slug);
+function tk_register_product_type($menu_name, $name, $slug, $kinds) {
+  tk_custom_post_type_product($menu_name, $name, $slug);
   tk_custom_taxonomy_product_kind($name, $slug);
   tk_custom_taxonomy_add_terms($slug, $kinds);
 };

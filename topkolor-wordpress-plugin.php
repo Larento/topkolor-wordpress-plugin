@@ -161,8 +161,9 @@ foreach ($product_types as $key => $type) {
   $name = $type['name'];
   $slug = $type['slug'];
   $kinds = $type['kinds'];
-  $tk_register[$slug] = function() use ($name, $slug, $kinds, $tk_permalinks_filter) {
-    tk_register_product_type($name, $slug, $kinds, $tk_permalinks_filter);
+  $menu_name = $key;
+  $tk_register[$slug] = function() use ($menu_name, $name, $slug, $kinds) {
+    tk_register_product_type($menu_name, $name, $slug, $kinds);
   };
   $tk_permalinks_filter[$slug] = function($post_link, $post, $leavename, $sample) use ($slug) {
     return tk_custom_post_type_permalinks($post_link, $post, $leavename, $sample, $slug);
