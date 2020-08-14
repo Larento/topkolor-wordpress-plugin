@@ -165,7 +165,7 @@ foreach ($product_types as $key => $type) {
     tk_register_product_type($name, $slug, $kinds, $tk_permalinks_filter);
   };
   $tk_permalinks_filter[$slug] = function($post_link, $post, $leavename, $sample) use ($slug) {
-    tk_custom_post_type_permalinks($post_link, $post, $leavename, $sample, $slug);
+    return tk_custom_post_type_permalinks($post_link, $post, $leavename, $sample, $slug);
   };
 };
 
