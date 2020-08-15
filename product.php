@@ -3,8 +3,12 @@ function tk_post_type_name($slug) {
   return substr($slug, 0, 3) . "_product";
 };
 
-function tk_taxonomy_name($slug) {
-  return tk_post_type_name($slug) . "_kind";
+function tk_taxonomy_name($slug, $post_name = false) {
+  if ($post_name !== false) {
+    return $post_name . "_kind";
+  } else {
+    return tk_post_type_name($slug) . "_kind";
+  };
 };
 
 function tk_custom_post_type_product($menu_name, $name, $slug) {
