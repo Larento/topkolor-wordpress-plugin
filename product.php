@@ -105,7 +105,7 @@
 
   function tk_get_current_product() {
     $products_array = get_post_types(['name' => get_post_type(), 'description'  => 'Product',], 'objects');
-    return ( reset($products_array) !== NULL ) ? reset($products_array) : 'not_product';
+    return ( $products_array !== array() ) ? reset($products_array) : 'not_product';
   };
 
   function tk_is_product() {
