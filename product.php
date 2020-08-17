@@ -119,12 +119,9 @@
     return $product->labels->all_items;
   };
 
-  function tk_get_product_kinds() {
-    foreach (tk_get_products() as $product) {
-      $product_taxonomy_names[] = tk_taxonomy_name('', tk_get_product_slug($product));
-    };
+  function tk_get_product_kinds($product) {
     return get_terms([
-      'taxonomy'    => $product_taxonomy_names,
+      'taxonomy'    => tk_taxonomy_name('', tk_get_product_slug($product)),
       'hide_empty'  => false,
     ]);
   };
