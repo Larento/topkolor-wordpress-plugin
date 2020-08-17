@@ -104,7 +104,7 @@
   };
 
   function tk_get_current_product() {
-    return ( get_post_types(['name' => get_post_type(), 'description'  => 'Product',], 'objects') !== null ) ? get_post_types(['name' => get_post_type(), 'description'  => 'Product',], 'objects') : 'not_product';
+    return ( get_post_types(['name' => get_post_type(), 'description'  => 'Product',], 'objects') !== array() ) ? get_post_types(['name' => get_post_type(), 'description'  => 'Product',], 'objects') : 'not_product';
   };
 
   function tk_is_product() {
