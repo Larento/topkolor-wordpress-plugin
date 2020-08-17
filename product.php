@@ -130,7 +130,7 @@
     global $post;
     $product = tk_get_current_product();
     if ( tk_is_product() === true ) {
-      return "good shit";
+      return tk_taxonomy_name('', tk_get_product_slug($product));
       //return ( get_the_terms( $post, tk_taxonomy_name('', tk_get_product_slug($product)) ) !== false ) ? get_the_terms( $post, tk_taxonomy_name('', tk_get_product_slug($product)) ) : 'not_product_kind';
     } else {
       return 'not_product';
