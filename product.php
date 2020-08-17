@@ -3,7 +3,7 @@
   function tk_custom_post_type_product($menu_name, $name, $slug) {
     $labels = [
       'name'              => _x("$name Products", 'post type general name' ),
-      'singular_name'     => _x( "$name Products", 'post type singular name' ),
+      'singular_name'     => _x( "$name Product", 'post type singular name' ),
       'add_new'           => _x( 'Add New', 'product' ),
       'add_new_item'      => __( 'Add New Product' ),
       'edit_item'         => __( 'Edit Product' ),
