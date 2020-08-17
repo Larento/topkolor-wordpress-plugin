@@ -126,15 +126,16 @@
     ]);
   };
 
-  function tk_get_current_product_kind() {
+  function tk_get_current_product_kind($product) {
     global $post;
-    $product = tk_get_current_product();
+    //$product = tk_get_current_product();
     if ( tk_is_product() === true ) {
       //return var_dump($product);
-      return ( get_the_terms( $post, tk_taxonomy_name('', tk_get_product_slug($product)) ) !== false ) ? get_the_terms( $post, tk_taxonomy_name('', tk_get_product_slug($product)) ) : 'not_product_kind';
+      //return ( get_the_terms( $post, tk_taxonomy_name('', tk_get_product_slug($product)) ) !== false ) ? get_the_terms( $post, tk_taxonomy_name('', tk_get_product_slug($product)) ) : 'not_product_kind';
     } else {
-      return 'not_product';
+      //return 'not_product';
     };
+    return tk_is_product();
   };
 
   function tk_is_product_kind() {
