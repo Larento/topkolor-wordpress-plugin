@@ -43,6 +43,7 @@
       'menu_name'         => __("$name Product Kinds"),
     ];
     $args = [
+      'description'       => 'Product Kind',
       'hierarchical'      => false,
       'labels'            => $labels,
       'show_ui'           => true,
@@ -130,7 +131,8 @@
 
   function tk_get_current_product_kind() {
     global $post;
-    return ( tk_is_product() === true ) ? get_the_terms($post, ) : 'not_product_kind';
+    $product = tk_get_current_product();
+    return ( tk_is_product() === true ) ? get_the_terms( $post, tk_taxonomy_name('', tk_get_product_slug($product)) ) : 'not_product_kind';
   };
 
   function tk_is_product_kind() {
