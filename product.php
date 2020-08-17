@@ -95,5 +95,48 @@ function tk_register_product_type($menu_name, $name, $slug, $kinds) {
   tk_custom_taxonomy_product_kind($name, $slug);
   tk_custom_taxonomy_add_terms($slug, $kinds);
 };
+
+function tk_get_products() {
+  return get_post_types( ['description'  => 'Product',], 'objects' );
+};
+
+function tk_get_current_product() {
+  return ( get_post_types(['name' => get_post_type(), 'description'  => 'Product',], 'objects') !== null ) ? get_post_types(['name' => get_post_type(), 'description'  => 'Product',], 'objects') : 'not_product';
+};
+
+function tk_is_product() {
+  return ( tk_get_product() === 'not_product' ) ? false : true; 
+};
+
+function tk_get_product_slug($product) {
+  return $product->name;
+};
+
+function tk_get_product_label($product) {
+  return $product->labels->all_items;
+};
+
+function tk_get_product_kinds() {
+  foreach (tk_get_products() as $product) {
+    $product_taxonomy_names[] = tk_taxonomy_name('', tk_get_product_slug($product));
+  };
+  return get_terms([
+    'taxonomy'    => $product_taxonomy_names,
+    'hide_empty'  => false,
+  ]);
+};
+
+function tk_get_current_product_kind() {
+  global $post;
+  return ( tk_is_product() === true ) ? get_the_terms($post, ) : 'not-product';
+};
+
+function tk_get_product_kind_slug($product_kind) {
+  return $product_kind->slug;
+};
+
+function tk_get_product_kind_label($product_kind) {
+  return $product_kind->name;
+};
 ?>
 
