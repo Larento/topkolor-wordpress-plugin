@@ -9,41 +9,41 @@
 
 include_once( plugin_dir_path( __FILE__ ) . '/product.php' );
 
-// $product_types = [
-//   'Терраццо'            => [
-//     'name'                => 'Terrazzo',
-//     'slug'                => 'terrazzo',
-//     'kinds'               => [
-//       'Полы'                => 'floors',
-//       'Столешницы'          => 'countertops',
-//       'Подоконники'         => 'window-sills',
-//       'Раковины'            => 'sinks',
-//       'Панели'              => 'panels',
-//     ],
-//   ],
+$product_types = [
+  'Терраццо'            => [
+    'name'                => 'Terrazzo',
+    'slug'                => 'terrazzo',
+    'kinds'               => [
+      'Полы'                => 'floors',
+      'Столешницы'          => 'countertops',
+      'Подоконники'         => 'window-sills',
+      'Раковины'            => 'sinks',
+      'Панели'              => 'panels',
+    ],
+  ],
 
-//   'Декоративный бетон'  => [
-//     'name'                => 'Decorative Concrete',
-//     'slug'                => 'decorative-concrete',
-//     'kinds'               => [
-//       'Полы'                => 'floors',
-//       'Столешницы'          => 'countertops',
-//       'Подоконники'         => 'window-sills',
-//       'Раковины'            => 'sinks',
-//       'Панели'              => 'panels',
-//     ],
-//   ],
+  'Декоративный бетон'  => [
+    'name'                => 'Decorative Concrete',
+    'slug'                => 'decorative-concrete',
+    'kinds'               => [
+      'Полы'                => 'floors',
+      'Столешницы'          => 'countertops',
+      'Подоконники'         => 'window-sills',
+      'Раковины'            => 'sinks',
+      'Панели'              => 'panels',
+    ],
+  ],
 
-//   'Микроцемент'         => [
-//     'name'                => 'Micro Concrete',
-//     'slug'                => 'micro-concrete',
-//     'kinds'               => [
-//       'Напольные покрытия'  => 'floor-coverings',
-//       'Настенные покрытия'  => 'wall-coverings',
-//       'Элементы интерьера'  => 'interior-elements',
-//     ],
-//   ],
-// ];
+  'Микроцемент'         => [
+    'name'                => 'Micro Concrete',
+    'slug'                => 'micro-concrete',
+    'kinds'               => [
+      'Напольные покрытия'  => 'floor-coverings',
+      'Настенные покрытия'  => 'wall-coverings',
+      'Элементы интерьера'  => 'interior-elements',
+    ],
+  ],
+];
 
 $tk_register = [];
 $tk_permalinks_filter = [];
