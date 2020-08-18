@@ -60,7 +60,6 @@
   function tk_custom_taxonomy_add_terms($slug, $kinds) {
     foreach ($kinds as $key => $value) {
       wp_insert_term( $key, tk_taxonomy_name($slug), [
-        'description' => '',
         'parent'      => 0,
         'slug'        => $value,
       ]);
@@ -124,8 +123,8 @@
     return get_terms([
       'taxonomy'    => tk_taxonomy_name('', tk_get_product_slug($product)),
       'hide_empty'  => false,
-      'order'       => 'modified',
-      //'orderby'     => 'DESC',
+      'order'       => 'ID',
+      'orderby'     => 'ASC',
     ]);
   };
 
