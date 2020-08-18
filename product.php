@@ -124,8 +124,8 @@
     return get_terms([
       'taxonomy'    => tk_taxonomy_name('', tk_get_product_slug($product)),
       'hide_empty'  => false,
-      'order'       => 'ID',
-      'orderby'     => 'DESC',
+      //'order'       => 'ID',
+      //'orderby'     => 'DESC',
     ]);
   };
 
