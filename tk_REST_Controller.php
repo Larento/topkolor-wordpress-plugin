@@ -9,12 +9,17 @@ class tk_products_custom_route extends WP_REST_Controller {
     $version = '1';
     $namespace = 'tk-wordpress-plugin/v' . $version;
     $base = 'functions';
-    register_rest_route( $namespace, '/' . $base . '/get_request_form_params', array(
+    register_rest_route( $namespace, '/' . $base . '/get_request_form_params/(?P<post_id>\d+)', array(
       array(
         'methods'             => WP_REST_Server::READABLE,
         'callback'            => array( $this, 'get_request_form_params' ),
         'permission_callback' => array( $this, 'get_info_permissions_check' ),
-        'args'                => array(),
+        'args'                => [
+          'post_id'            => [
+              'default'         => 1,
+              'required'        => true,
+          ],
+        ],
       ),
     ),
     );
@@ -30,7 +35,7 @@ class tk_products_custom_route extends WP_REST_Controller {
     //get parameters from request
     $params = $request->get_params();
     
-    $post_id = $params['postid'];
+    $post_id = $params['post_id'];
     // if (tk_is_product() === true) {
     //   $style = tk_get_product_slug( tk_get_current_product() );
     // } else {
