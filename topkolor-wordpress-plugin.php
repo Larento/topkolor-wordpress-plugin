@@ -71,46 +71,46 @@ foreach ($tk_permalinks_filter as $filter_func) {
   add_filter('post_type_link', $filter_func, 10, 4);
 }
 
-// add_action( 'rest_api_init', 'prefix_register_my_rest_routes' );
-// function prefix_register_my_rest_routes() {
-// 	$controller = new tk_products_custom_route();
-// 	$controller->register_routes();
-// }
-
-add_action('init', function () {
-  add_rewrite_tag('%request_form_post_id%', '([^&]+)');
-  add_rewrite_rule('ajax-api/functions/get_form_params/([0-9]+)/?', 'index.php?request_form_post_id=$matches[1]', 'top');
-});
-
-function get_form_params($post_id) {
-  $item['id'] = $post_id;
-  $post = get_post($item['id']);
-  if (tk_is_product($post) === true) {
-    $item['style'] = tk_get_product_slug(tk_get_current_product($post));
-  } else {
-    $item['style'] = 'none';
-  }
-  if (tk_is_product_kind($post) === true) {
-    if (is_post_type_archive($post) === true) {
-      $item['kind'] = 'none';
-    } else {
-      $item['kind'] = tk_get_product_kind_slug(tk_get_current_product_kind($post));
-    }
-  } else {
-    $item['kind'] = 'none';
-  }
-  if ($post !== NULL) {
-    wp_send_json_success($item);
-  } else {
-    wp_send_json_error('Post is not a product or does not exist!');
-  }
+add_action( 'rest_api_init', 'prefix_register_my_rest_routes' );
+function prefix_register_my_rest_routes() {
+	$controller = new tk_products_custom_route();
+	$controller->register_routes();
 }
 
-add_action('template_redirect', function () {
-  global $wp_query;
-  $post_id = $wp_query->get('request_form_post_id');
+// add_action('init', function () {
+//   add_rewrite_tag('%request_form_post_id%', '([^&]+)');
+//   add_rewrite_rule('ajax-api/functions/get_form_params/([0-9]+)/?', 'index.php?request_form_post_id=$matches[1]', 'top');
+// });
 
-  if (!empty($post_id)) {
-    get_form_params($post_id);
-  }
-});
+// function get_form_params($post_id) {
+//   $item['id'] = $post_id;
+//   $post = get_post($item['id']);
+//   if (tk_is_product($post) === true) {
+//     $item['style'] = tk_get_product_slug(tk_get_current_product($post));
+//   } else {
+//     $item['style'] = 'none';
+//   }
+//   if (tk_is_product_kind($post) === true) {
+//     if (is_post_type_archive($post) === true) {
+//       $item['kind'] = 'none';
+//     } else {
+//       $item['kind'] = tk_get_product_kind_slug(tk_get_current_product_kind($post));
+//     }
+//   } else {
+//     $item['kind'] = 'none';
+//   }
+//   if ($post !== NULL) {
+//     wp_send_json_success($item);
+//   } else {
+//     wp_send_json_error('Post is not a product or does not exist!');
+//   }
+// }
+
+// add_action('template_redirect', function () {
+//   global $wp_query;
+//   $post_id = $wp_query->get('request_form_post_id');
+
+//   if (!empty($post_id)) {
+//     get_form_params($post_id);
+//   }
+// });
