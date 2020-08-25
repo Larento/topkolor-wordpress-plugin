@@ -36,22 +36,22 @@ class tk_products_custom_route extends WP_REST_Controller {
     $params = $request->get_params();
     $post_id = $params['post_id'];
     $post = get_post($post_id);
-    // if (tk_is_product() === true) {
-    //   $style = tk_get_product_slug( tk_get_current_product() );
-    // } else {
-    //   $style = 'none';
-    // };
-    // if (tk_is_product_kind() === true) {
-    //   if ( is_post_type_archive() === true ) {
-    //     $kind = 'none';
-    //   } else {
-    //     $kind = tk_get_product_kind_slug( tk_get_current_product_kind() );
-    //   };
-    // } else {
-    //   $kind = 'none';
-    // };
+    if (tk_is_product($post) === true) {
+      $style = tk_get_product_slug( tk_get_current_product($post) );
+    } else {
+      $style = 'none';
+    };
+    if (tk_is_product_kind($post) === true) {
+      if ( is_post_type_archive($post) === true ) {
+        $kind = 'none';
+      } else {
+        $kind = tk_get_product_kind_slug( tk_get_current_product_kind($post) );
+      };
+    } else {
+      $kind = 'none';
+    };
 
-    $item = var_dump($post);//do a query, call another class, etc
+    $item = $style . ", " . $kind;//do a query, call another class, etc
 
 
     $data = $this->prepare_item_for_response( $item, $request );
