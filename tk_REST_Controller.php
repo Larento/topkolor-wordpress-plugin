@@ -32,36 +32,25 @@ class tk_products_custom_route extends WP_REST_Controller {
    * @return WP_Error|WP_REST_Response
    */
   public function get_request_form_params( $request ) {
-    //get parameters from request
     $params = $request->get_params();
     $post_id = $params['post_id'];
     $post = get_post($post_id);
     if (tk_is_product($post) === true) {
-      $style = tk_get_product_slug( tk_get_current_product($post) );
+      $item['style'] = tk_get_product_slug( tk_get_current_product($post) );
     } else {
-      $style = 'none';
+      $item['style'] = 'none';
     };
     if (tk_is_product_kind($post) === true) {
       if ( is_post_type_archive($post) === true ) {
-        $kind = 'none';
+        $item['kind'] = 'none';
       } else {
-        $kind = tk_get_product_kind_slug( tk_get_current_product_kind($post) );
+        $item['kind'] = tk_get_product_kind_slug( tk_get_current_product_kind($post) );
       };
     } else {
-      $kind = 'none';
+      $item['kind'] = 'none';
     };
-
-    $item = $style . ", " . $kind;//do a query, call another class, etc
-
-
     $data = $this->prepare_item_for_response( $item, $request );
- 
-    //return a response or error based on some conditional
-    if ( 1 == 1 ) {
-      return new WP_REST_Response( $data, 200 );
-    } else {
-      return new WP_Error( 'code', __( 'message', 'text-domain' ) );
-    }
+    return new WP_REST_Response( $data, 200 );
   }
 
   /**
