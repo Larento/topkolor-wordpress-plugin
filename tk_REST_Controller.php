@@ -58,7 +58,7 @@ class tk_products_custom_route extends WP_REST_Controller {
  
     //return a response or error based on some conditional
     if ( 1 == 1 ) {
-      return new WP_REST_Response( $data, 200 );
+      return new WP_REST_Response( $item, 200 );
     } else {
       return new WP_Error( 'code', __( 'message', 'text-domain' ) );
     }
