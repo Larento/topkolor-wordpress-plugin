@@ -2,7 +2,7 @@
 /**
  * Plugin Name: TOPKOLOR Plugin
  * Author: Larik
- * Version: 0.0.6
+ * Version: 0.0.7
  * GitHub Plugin URI: https://github.com/Larento/topkolor-wordpress-plugin
  * License: GNU General Public License v2 or later
  */
