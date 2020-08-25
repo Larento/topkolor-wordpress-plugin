@@ -26,7 +26,7 @@
       ],
     ];
     register_post_type( tk_post_type_name($slug), $args ); 
-  };
+  }
 
   function tk_custom_taxonomy_product_kind($name, $slug) {
     $labels = [
@@ -55,7 +55,7 @@
       ],
     ];
     register_taxonomy( tk_taxonomy_name($slug), tk_post_type_name($slug), $args );
-  };
+  }
 
   function tk_custom_taxonomy_add_terms($slug, $kinds) {
     foreach ($kinds as $key => $value) {
@@ -64,7 +64,7 @@
         'slug'        => $value,
       ]);
     };
-  };
+  }
 
   function tk_custom_post_type_permalinks($post_link, $post, $leavename, $sample, $slug) {
     $taxonomy_name = tk_taxonomy_name($slug);
@@ -77,18 +77,18 @@
       };
     };
     return $post_link;
-  };
+  }
 
   function tk_register_product_type($menu_name, $name, $slug, $kinds) {
     tk_custom_post_type_product($menu_name, $name, $slug);
     tk_custom_taxonomy_product_kind($name, $slug);
     tk_custom_taxonomy_add_terms($slug, $kinds);
-  };
+  }
 
 //Access functions
   function tk_post_type_name($slug) {
     return substr($slug, 0, 3) . "_product";
-  };
+  }
 
   function tk_taxonomy_name($slug, $post_name = false) {
     if ($post_name !== false) {
@@ -96,28 +96,30 @@
     } else {
       return tk_post_type_name($slug) . "_kind";
     };
-  };
+  }
 
   function tk_get_products() {
     return get_post_types( ['description'  => 'Product',], 'objects' );
   };
 
-  function tk_get_current_product() {
-    $products_array = get_post_types(['name' => get_post_type(), 'description'  => 'Product',], 'objects');
+  function tk_get_current_product($current_post = NULL) {
+    global $post;
+    $current_post = $current_post ?? $post;
+    $products_array = get_post_types(['name' => get_post_type($current_post), 'description'  => 'Product',], 'objects');
     return ( $products_array !== array() ) ? reset($products_array) : 'not_product';
-  };
+  }
 
-  function tk_is_product() {
-    return ( tk_get_current_product() === 'not_product' ) ? false : true; 
-  };
+  function tk_is_product($current_post = NULL) {
+    return ( tk_get_current_product($current_post) === 'not_product' ) ? false : true; 
+  }
 
   function tk_get_product_slug($product) {
     return $product->name;
-  };
+  }
 
   function tk_get_product_label($product) {
     return $product->labels->all_items;
-  };
+  }
 
   function tk_get_product_kinds($product) {
     return get_terms([
@@ -126,29 +128,58 @@
       'order'       => 'id',
       'orderby'     => 'ASC',
     ]);
-  };
+  }
 
-  function tk_get_current_product_kind() {
-    if ( tk_is_product() === true ) {
-      global $post;
+  function tk_get_current_product_kind($current_post = NULL) {
+    global $post;
+    $current_post = $current_post ?? $post;
+    if ( tk_is_product($current_post) === true ) {
       $product = tk_get_current_product();
-      $product_kinds_array = get_the_terms( $post, tk_taxonomy_name('', tk_get_product_slug($product)) );
+      $product_kinds_array = get_the_terms( $current_post, tk_taxonomy_name('', tk_get_product_slug($product)) );
       return ( $product_kinds_array !== array() ) ? reset($product_kinds_array) : 'not_product_kind';
     } else {
       return 'not_product_kind';
     };
-  };
+  }
 
-  function tk_is_product_kind() {
-    return ( tk_get_current_product_kind() === 'not_product_kind' ) ? false : true; 
-  };
+  function tk_is_product_kind($current_post = NULL) {
+    return ( tk_get_current_product_kind($current_post) === 'not_product_kind' ) ? false : true; 
+  }
 
   function tk_get_product_kind_slug($product_kind) {
     return $product_kind->slug;
-  };
+  }
 
   function tk_get_product_kind_label($product_kind) {
     return $product_kind->name;
-  };
+  }
+//Content functions
+  function tk_get_folder_media($path) {
+    $folders = wp_rml_objects();
+    $picture_folder = wp_rml_get_object_by_id( _wp_rml_root() );
+    foreach ( $folders as $folder ) {
+      if ( is_rml_folder( $folder ) === true ) {
+        $folder_path = urldecode($folder->getPath());
+        if ( $folder_path == $path) {
+          $picture_folder = $folder;
+          break;
+        };
+      };
+    };
+    return wp_rml_get_attachments( $picture_folder->getId() );
+  }
+
+  function tk_get_post_media($parentURL) {
+    return tk_get_folder_media($parentURL . '/' . get_the_title());
+  }
+
+  function tk_get_product_media() {
+    if ( tk_is_product() && tk_is_product_kind() ){
+      $parentURL = tk_get_product_label(tk_get_current_product()) . "/" . tk_get_product_kind_label(tk_get_current_product_kind());
+      return tk_get_post_media($parentURL);
+    } else {
+      return 'Error! Post is not a product.';
+    };
+  }
 ?>
 
