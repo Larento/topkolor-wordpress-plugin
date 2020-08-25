@@ -8,6 +8,7 @@
  */
 
 include_once( plugin_dir_path( __FILE__ ) . '/product.php' );
+include_once( plugin_dir_path( __FILE__ ) . '/tk_REST_Controller.php' );
 
 $product_types = [
   'Терраццо'            => [
@@ -67,5 +68,11 @@ foreach ($tk_register as $register_func) {
 
 foreach ($tk_permalinks_filter as $filter_func) {
   add_filter('post_type_link', $filter_func, 10, 4);
+}
+
+add_action( 'rest_api_init', 'prefix_register_my_rest_routes' );
+function prefix_register_my_rest_routes() {
+	$controller = new tk_products_custom_route();
+	$controller->register_routes();
 }
 ?>

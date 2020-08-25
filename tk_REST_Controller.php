@@ -9,14 +9,12 @@ class tk_products_custom_route extends WP_REST_Controller {
     $version = '1';
     $namespace = 'tk-wordpress-plugin/v' . $version;
     $base = 'functions';
-    register_rest_route( $namespace, '/' . $base, array(
+    register_rest_route( $namespace, '/' . $base . '/get_request_form_params', array(
       array(
         'methods'             => WP_REST_Server::READABLE,
-        'callback'            => array( $this, 'get_items' ),
-        'permission_callback' => array( $this, 'get_items_permissions_check' ),
-        'args'                => array(
- 
-        ),
+        'callback'            => array( $this, 'get_request_form_params' ),
+        'permission_callback' => array( $this, 'get_info_permissions_check' ),
+        'args'                => array(),
       ),
     ),
     );
@@ -28,10 +26,29 @@ class tk_products_custom_route extends WP_REST_Controller {
    * @param WP_REST_Request $request Full data about the request.
    * @return WP_Error|WP_REST_Response
    */
-  public function get_item( $request ) {
+  public function get_request_form_params( $request ) {
     //get parameters from request
     $params = $request->get_params();
-    $item = 'lel';//do a query, call another class, etc
+    
+    $post_id = $params[0];
+    // if (tk_is_product() === true) {
+    //   $style = tk_get_product_slug( tk_get_current_product() );
+    // } else {
+    //   $style = 'none';
+    // };
+    // if (tk_is_product_kind() === true) {
+    //   if ( is_post_type_archive() === true ) {
+    //     $kind = 'none';
+    //   } else {
+    //     $kind = tk_get_product_kind_slug( tk_get_current_product_kind() );
+    //   };
+    // } else {
+    //   $kind = 'none';
+    // };
+
+    $item = $post_id;//do a query, call another class, etc
+
+
     $data = $this->prepare_item_for_response( $item, $request );
  
     //return a response or error based on some conditional
@@ -48,19 +65,9 @@ class tk_products_custom_route extends WP_REST_Controller {
    * @param WP_REST_Request $request Full data about the request.
    * @return WP_Error|bool
    */
-  public function get_items_permissions_check( $request ) {
+  public function get_info_permissions_check( $request ) {
     return true;
     //return current_user_can( 'edit_something' );
-  }
- 
-  /**
-   * Check if a given request has access to get a specific item
-   *
-   * @param WP_REST_Request $request Full data about the request.
-   * @return WP_Error|bool
-   */
-  public function get_item_permissions_check( $request ) {
-    return $this->get_items_permissions_check( $request );
   }
  
   /**
