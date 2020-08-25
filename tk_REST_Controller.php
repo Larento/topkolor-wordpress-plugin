@@ -51,7 +51,7 @@ class tk_products_custom_route extends WP_REST_Controller {
     //   $kind = 'none';
     // };
 
-    $item = $post_id;//do a query, call another class, etc
+    $item = var_dump($post);//do a query, call another class, etc
 
 
     $data = $this->prepare_item_for_response( $item, $request );
