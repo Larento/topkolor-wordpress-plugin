@@ -78,8 +78,8 @@ foreach ($tk_permalinks_filter as $filter_func) {
 // }
 
 add_action('init', function () {
-  add_rewrite_tag('%post_id%', '([^&]+)');
-  add_rewrite_rule('ajax-api/functions/get_form_params/([0-9]+)/?', 'index.php?post_id=$matches[1]', 'top');
+  add_rewrite_tag('%request_form_post_id%', '([^&]+)');
+  add_rewrite_rule('ajax-api/functions/get_form_params/([0-9]+)/?', 'index.php?request_form_post_id=$matches[1]', 'top');
 });
 
 function get_form_params($post_id) {
@@ -100,15 +100,15 @@ function get_form_params($post_id) {
     $item['kind'] = 'none';
   }
   if ($post !== NULL) {
-    return $item;
+    wp_send_json_success($item);
   } else {
-    return new WP_Error('Error!', __('Post does not exist.', 'text-domain'));;
+    wp_send_json_error('Post is not a product or does not exist!');
   }
 }
 
 add_action('template_redirect', function () {
   global $wp_query;
-  $post_id = $wp_query->get('post_id');
+  $post_id = $wp_query->get('request_form_post_id');
 
   if (!empty($post_id)) {
     get_form_params($post_id);
