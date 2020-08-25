@@ -34,8 +34,8 @@ class tk_products_custom_route extends WP_REST_Controller {
   public function get_request_form_params( $request ) {
     //get parameters from request
     $params = $request->get_params();
-    
     $post_id = $params['post_id'];
+    $post = get_post($post_id);
     // if (tk_is_product() === true) {
     //   $style = tk_get_product_slug( tk_get_current_product() );
     // } else {
@@ -58,7 +58,7 @@ class tk_products_custom_route extends WP_REST_Controller {
  
     //return a response or error based on some conditional
     if ( 1 == 1 ) {
-      return new WP_REST_Response( $item, 200 );
+      return new WP_REST_Response( $data, 200 );
     } else {
       return new WP_Error( 'code', __( 'message', 'text-domain' ) );
     }
@@ -83,7 +83,7 @@ class tk_products_custom_route extends WP_REST_Controller {
    * @return mixed
    */
   public function prepare_item_for_response( $item, $request ) {
-    return json_encode($item);
+    return $item;
   }
 }
 
