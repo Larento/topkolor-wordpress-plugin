@@ -33,8 +33,8 @@ class tk_products_custom_route extends WP_REST_Controller {
    */
   public function get_request_form_params( $request ) {
     $params = $request->get_params();
-    $post_id = $params['post_id'];
-    $post = get_post($post_id);
+    $item['id'] = $params['post_id'];
+    $post = get_post($item['id']);
     if (tk_is_product($post) === true) {
       $item['style'] = tk_get_product_slug( tk_get_current_product($post) );
     } else {
