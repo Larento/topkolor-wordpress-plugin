@@ -50,7 +50,11 @@ class tk_products_custom_route extends WP_REST_Controller {
       $item['kind'] = 'none';
     };
     $data = $this->prepare_item_for_response( $item, $request );
-    return new WP_REST_Response( $data, 200 );
+    if ( $post !== NULL ) {
+      return new WP_REST_Response( $data, 200 );
+    } else {
+      return new WP_Error( 'code', __( 'message', 'text-domain' ) );;
+    }
   }
 
   /**
