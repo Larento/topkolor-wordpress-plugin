@@ -20,11 +20,6 @@ class tk_products_custom_route extends WP_REST_Controller {
       ),
     ),
     );
-    register_rest_route( $namespace, '/' . $base . '/schema', array(
-      'methods'  => WP_REST_Server::READABLE,
-      'callback' => array( $this, 'get_public_item_schema' ),
-      ),
-    );
   }
  
   /**
@@ -36,7 +31,7 @@ class tk_products_custom_route extends WP_REST_Controller {
   public function get_item( $request ) {
     //get parameters from request
     $params = $request->get_params();
-    $item = tk_is_product();//do a query, call another class, etc
+    $item = 'lel';//do a query, call another class, etc
     $data = $this->prepare_item_for_response( $item, $request );
  
     //return a response or error based on some conditional
