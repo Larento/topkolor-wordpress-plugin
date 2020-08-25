@@ -39,21 +39,21 @@ class tk_products_custom_route extends WP_REST_Controller {
       $item['style'] = tk_get_product_slug( tk_get_current_product($post) );
     } else {
       $item['style'] = 'none';
-    };
+    }
     if (tk_is_product_kind($post) === true) {
       if ( is_post_type_archive($post) === true ) {
         $item['kind'] = 'none';
       } else {
         $item['kind'] = tk_get_product_kind_slug( tk_get_current_product_kind($post) );
-      };
+      }
     } else {
       $item['kind'] = 'none';
-    };
+    }
     $data = $this->prepare_item_for_response( $item, $request );
     if ( $post !== NULL ) {
       return new WP_REST_Response( $data, 200 );
     } else {
-      return new WP_Error( 'code', __( 'message', 'text-domain' ) );;
+      return new WP_Error( 'Error!', __( 'Post does not exist.', 'text-domain' ) );;
     }
   }
 
