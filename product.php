@@ -9,7 +9,7 @@ class product_kind {
   public function __construct( string $label, string $slug, string $taxonomy_slug ) {
     $this->label = $label;
     $this->slug = $slug;
-    $this->wp_object = $this->add_kind( $this->label, $this->slug, $taxonomy_slug );;
+    $this->wp_object = $this->add_kind( $this->label, $this->slug, $taxonomy_slug );
   }
 
   private function add_kind( string $label, string $slug, string $taxonomy_slug ) {
@@ -62,7 +62,7 @@ class product_taxonomy {
       'show_admin_column' => true,
       'query_var'         => true,
       'rewrite'           => [
-        'slug'              => $slug,
+        'slug'              => $url_slug,
         'with_front'        => false,
       ],
     ];
@@ -84,7 +84,7 @@ class product {
     $this->url_slug = $url_slug;
     $this->archive_name = $archive_name;
     $this->kinds = $kinds;
-    $this->slug = substr( $this->$url_slug, 0, 3 ) . "_product";;
+    $this->slug = substr( $this->$url_slug, 0, 3 ) . "_product";
   }
 
   private function register ( string $label, string $slug, string $url_slug, string $taxonomy_slug, string $archive_name) {
