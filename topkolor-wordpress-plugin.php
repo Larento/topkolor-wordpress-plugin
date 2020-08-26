@@ -80,7 +80,7 @@ foreach ( $product_types as $key => $type ) {
   $kinds = $type['kinds'];
   $archive_name = $key;
   $tk_product_types[$key] = New tk\product( $label, $url_slug, $archive_name, $kinds );
-  $tk_product_types[$key]->wp_add();  
+  //$tk_product_types[$key]->wp_add();  
 }
 
 add_action( 'rest_api_init', 'prefix_register_my_rest_routes' );
