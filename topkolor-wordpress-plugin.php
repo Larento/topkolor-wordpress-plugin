@@ -48,6 +48,8 @@ $product_types = [
   ],
 ];
 
+$tk_product_types = [];
+
 foreach ( $product_types as $key => $type ) {
   $label = $type['name'];
   $url_slug = $type['slug'];
