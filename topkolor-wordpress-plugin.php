@@ -55,7 +55,7 @@ foreach ( $product_types as $key => $type ) {
   $url_slug = $type['slug'];
   $kinds = $type['kinds'];
   $archive_name = $key;
-  $tk_product_types[$key] = New tk\product( $label, $url_slug, $archive_name, $kinds );
+  $tk_product_types[$key] = new tk\product( $label, $url_slug, $archive_name, $kinds );
   $tk_product_types[$key]->wp_add();  
 }
 

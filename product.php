@@ -35,7 +35,7 @@ class product_taxonomy {
     $this->url_slug = $url_slug;
     $this->wp_object = $this->register( $label, $this->slug, $this->url_slug );
     foreach ($kinds as $kind_label => $kind_slug) {
-      $kind = New product_kind( $kind_label, $kind_slug, $slug );
+      $kind = new product_kind( $kind_label, $kind_slug, $slug );
       $this->kinds[] = $kind;
     }
   }
@@ -118,7 +118,7 @@ class product {
   public function add_register() {
     $taxonomy_slug = $this->slug . "_kind";
     $this->wp_object = $this->register( $this->label, $this->slug, $this->url_slug, $taxonomy_slug, $this->archive_name );
-    $this->taxonomy = New product_taxonomy( $this->label, $taxonomy_slug, $this->kinds );
+    $this->taxonomy = new product_taxonomy( $this->label, $taxonomy_slug, $this->url_slug, $this->kinds );
   }
 
   public function add_permalink_filter($post_link, $post, $leavename, $sample) {
