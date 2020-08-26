@@ -84,7 +84,7 @@ class product {
     $this->url_slug = $url_slug;
     $this->archive_name = $archive_name;
     $this->kinds = $kinds;
-    $this->slug = substr( $this->$url_slug, 0, 3 ) . "_product";
+    $this->slug = substr( $this->url_slug, 0, 3 ) . "_product";
   }
 
   private function register ( string $label, string $slug, string $url_slug, string $taxonomy_slug, string $archive_name) {
