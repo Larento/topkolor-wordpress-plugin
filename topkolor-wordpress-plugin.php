@@ -3,12 +3,10 @@
 /**
  * Plugin Name: TOPKOLOR Plugin
  * Author: Larik
- * Version: 0.0.7
+ * Version: 0.0.8
  * GitHub Plugin URI: https://github.com/Larento/topkolor-wordpress-plugin
  * License: GNU General Public License v2 or later
  */
-
-use tk\product;
 
 include_once(plugin_dir_path(__FILE__) . '/product.php');
 include_once(plugin_dir_path(__FILE__) . '/tk_REST_Controller.php');
@@ -50,37 +48,13 @@ $product_types = [
   ],
 ];
 
-/* $tk_register = [];
-$tk_permalinks_filter = [];
-
-foreach ($product_types as $key => $type) {
-  $name = $type['name'];
-  $slug = $type['slug'];
-  $kinds = $type['kinds'];
-  $menu_name = $key;
-  $tk_register[$slug] = function () use ($menu_name, $name, $slug, $kinds) {
-    tk_register_product_type($menu_name, $name, $slug, $kinds);
-  };
-  $tk_permalinks_filter[$slug] = function ($post_link, $post, $leavename, $sample) use ($slug) {
-    return tk_custom_post_type_permalinks($post_link, $post, $leavename, $sample, $slug);
-  };
-}
-
-foreach ($tk_register as $register_func) {
-  add_action('init', $register_func);
-}
-
-foreach ($tk_permalinks_filter as $filter_func) {
-  add_filter('post_type_link', $filter_func, 10, 4);
-} */
-use tk;
 foreach ( $product_types as $key => $type ) {
   $label = $type['name'];
   $url_slug = $type['slug'];
   $kinds = $type['kinds'];
   $archive_name = $key;
   $tk_product_types[$key] = New tk\product( $label, $url_slug, $archive_name, $kinds );
-  //$tk_product_types[$key]->wp_add();  
+  $tk_product_types[$key]->wp_add();  
 }
 
 add_action( 'rest_api_init', 'prefix_register_my_rest_routes' );
@@ -89,10 +63,10 @@ function prefix_register_my_rest_routes() {
 	$controller->register_routes();
 }
 
-// add_action('init', function () {
-//   add_rewrite_tag('%request_form_post_id%', '([^&]+)');
-//   add_rewrite_rule('ajax-api/functions/get_form_params/([0-9]+)/?', 'index.php?request_form_post_id=$matches[1]', 'top');
-// });
+function get_profgbfgbfgs() {
+  global $tk_product_types;
+  return $tk_product_types;
+}
 
 // function get_form_params($post_id) {
 //   $item['id'] = $post_id;
@@ -126,3 +100,4 @@ function prefix_register_my_rest_routes() {
 //     get_form_params($post_id);
 //   }
 // });
+?>

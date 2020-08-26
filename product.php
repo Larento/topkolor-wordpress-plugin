@@ -17,6 +17,9 @@ class product_kind {
       'parent'      => 0,
       'slug'        => $slug,
     ]);
+    if ( is_wp_error($id) ) {
+      return get_term_by( 'slug', $slug, $taxonomy_slug ); 
+    }
     return get_term_by( 'term_taxonomy_id', $id[1] );
   }
 }
@@ -24,18 +27,20 @@ class product_kind {
 class product_taxonomy {
   public $wp_object;
   public $slug;
+  public $url_slug;
   public $kinds;
 
-  public function __construct( string $label, string $slug, array $kinds ) {
+  public function __construct( string $label, string $slug, string $url_slug, array $kinds ) {
     $this->slug = $slug;
-    $this->wp_object = $this->register( $label, $this->slug );
+    $this->url_slug = $url_slug;
+    $this->wp_object = $this->register( $label, $this->slug, $this->url_slug );
     foreach ($kinds as $kind_label => $kind_slug) {
       $kind = New product_kind( $kind_label, $kind_slug, $slug );
       $this->kinds[] = $kind;
     }
   }
 
-  private function register( string $label, string $slug ) {
+  private function register( string $label, string $slug, string $url_slug ) {
     $labels = [
       'name'              => _x("$label Product Kinds", 'taxonomy general name'),
       'singular_name'     => _x("$label Product Kind", 'taxonomy singular name'),
