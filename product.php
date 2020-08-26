@@ -1,37 +1,44 @@
 <?php
-//Creation functions
-  function tk_custom_post_type_product($menu_name, $name, $slug) {
-    $labels = [
-      'name'              => _x("$name Products", 'post type general name' ),
-      'singular_name'     => _x( "$name Product", 'post type singular name' ),
-      'add_new'           => _x( 'Add New', 'product' ),
-      'add_new_item'      => __( 'Add New Product' ),
-      'edit_item'         => __( 'Edit Product' ),
-      'new_item'          => __( 'New Product' ),
-      'all_items'         => __( $menu_name ),
-      'view_item'         => __( 'View Product' ),
-      'search_items'      => __( 'Search Products' ), 
-      'menu_name'         => __("$name Products"),
-    ];
-    $args = [
-      'labels'            => $labels,
-      'public'            => true,
-      'description'       => 'Product',
-      'menu_position'     => 1,
-      'supports'          => ['title', 'editor', 'thumbnail', 'excerpt'],
-      'has_archive'       => $slug,
-      'rewrite'           => [
-        'slug'              => $slug . "/%" . tk_taxonomy_name($slug) . "%",
-        'with_front'        => false,
-      ],
-    ];
-    register_post_type( tk_post_type_name($slug), $args ); 
+namespace tk;
+
+class product_kind {
+  public $wp_object;
+  public $label;
+  public $slug;
+
+  public function __construct( string $label, string $slug, string $taxonomy_slug ) {
+    $this->label = $label;
+    $this->slug = $slug;
+    $this->wp_object = $this->add_kind( $this->label, $this->slug, $taxonomy_slug );;
   }
 
-  function tk_custom_taxonomy_product_kind($name, $slug) {
+  private function add_kind( string $label, string $slug, string $taxonomy_slug ) {
+    $id = wp_insert_term( $label, $taxonomy_slug, [
+      'parent'      => 0,
+      'slug'        => $slug,
+    ]);
+    return get_term_by( 'term_taxonomy_id', $id[1] );
+  }
+}
+
+class product_taxonomy {
+  public $wp_object;
+  public $slug;
+  public $kinds;
+
+  public function __construct( string $label, string $slug, array $kinds ) {
+    $this->slug = $slug;
+    $this->wp_object = $this->register( $label, $this->slug );
+    foreach ($kinds as $kind_label => $kind_slug) {
+      $kind = New product_kind( $kind_label, $kind_slug, $slug );
+      $this->kinds[] = $kind;
+    }
+  }
+
+  private function register( string $label, string $slug ) {
     $labels = [
-      'name'              => _x("$name Product Kinds", 'taxonomy general name'),
-      'singular_name'     => _x("$name Product Kind", 'taxonomy singular name'),
+      'name'              => _x("$label Product Kinds", 'taxonomy general name'),
+      'singular_name'     => _x("$label Product Kind", 'taxonomy singular name'),
       'search_items'      => __('Search Product Kinds'),
       'all_items'         => __('All Product Kinds'),
       'parent_item'       => __('Parent Product Kind'),
@@ -40,7 +47,7 @@
       'update_item'       => __('Update Product Kind'),
       'add_new_item'      => __('Add New Product Kind'),
       'new_item_name'     => __('New Product Kind Name'),
-      'menu_name'         => __("$name Product Kinds"),
+      'menu_name'         => __("$label Product Kinds"),
     ];
     $args = [
       'description'       => 'Product Kind',
@@ -54,132 +61,81 @@
         'with_front'        => false,
       ],
     ];
-    register_taxonomy( tk_taxonomy_name($slug), tk_post_type_name($slug), $args );
+    return register_taxonomy( $slug, substr( $slug, 0, (strpos( $slug, 'kind' ) - 1) ), $args );
+  }
+}
+
+class product {
+  public $wp_object;
+  public $label;
+  public $slug;
+  public $url_slug;
+  public $archive_name;
+  public $taxonomy;
+  public $kinds;
+
+  public function __construct( string $label, string $url_slug, string $archive_name, array $kinds ) {
+    $this->label = $label;
+    $this->url_slug = $url_slug;
+    $this->archive_name = $archive_name;
+    $this->kinds = $kinds;
+    $this->slug = substr( $this->$url_slug, 0, 3 ) . "_product";;
   }
 
-  function tk_custom_taxonomy_add_terms($slug, $kinds) {
-    foreach ($kinds as $key => $value) {
-      wp_insert_term( $key, tk_taxonomy_name($slug), [
-        'parent'      => 0,
-        'slug'        => $value,
-      ]);
-    };
+  private function register ( string $label, string $slug, string $url_slug, string $taxonomy_slug, string $archive_name) {
+    $labels = [
+      'name'              => _x("$label Products", 'post type general name' ),
+      'singular_name'     => _x( "$label Product", 'post type singular name' ),
+      'add_new'           => _x( 'Add New', 'product' ),
+      'add_new_item'      => __( 'Add New Product' ),
+      'edit_item'         => __( 'Edit Product' ),
+      'new_item'          => __( 'New Product' ),
+      'all_items'         => __( $archive_name ),
+      'view_item'         => __( 'View Product' ),
+      'search_items'      => __( 'Search Products' ), 
+      'menu_name'         => __("$label Products"),
+    ];
+    $args = [
+      'labels'            => $labels,
+      'public'            => true,
+      'description'       => 'Product',
+      'menu_position'     => 1,
+      'supports'          => ['title', 'editor', 'thumbnail', 'excerpt'],
+      'has_archive'       => $url_slug,
+      'rewrite'           => [
+        'slug'              => $url_slug . "/%" . $taxonomy_slug . "%",
+        'with_front'        => false,
+      ],
+    ];
+    return register_post_type( $slug, $args ); 
   }
 
-  function tk_custom_post_type_permalinks($post_link, $post, $leavename, $sample, $slug) {
-    $taxonomy_name = tk_taxonomy_name($slug);
-    if ( strpos($post_link, "%" . $taxonomy_name . "%") !== false ) {
-      $taxonomy_terms = get_the_terms($post->ID, $taxonomy_name);
-      if ( empty($taxonomy_terms) !== true ) {
-        $post_link = str_replace("%" . $taxonomy_name . "%", array_pop($taxonomy_terms)->slug, $post_link);
+  public function add_register() {
+    $taxonomy_slug = $this->slug . "_kind";
+    $this->wp_object = $this->register( $this->label, $this->slug, $this->url_slug, $taxonomy_slug, $this->archive_name );
+    $this->taxonomy = New product_taxonomy( $this->label, $taxonomy_slug, $this->kinds );
+  }
+
+  public function add_permalink_filter($post_link, $post, $leavename, $sample) {
+    $taxonomy_slug = $this->slug . "_kind";
+    if ( strpos($post_link, "%" . $taxonomy_slug . "%") !== false ) {
+      $taxonomy_terms = get_the_terms($post->ID, $taxonomy_slug);
+      if ( !empty($taxonomy_terms) ) {
+        $post_link = str_replace("%" . $taxonomy_slug . "%", array_pop($taxonomy_terms)->slug, $post_link);
       } else {
-        $post_link = str_replace("%" . $taxonomy_name . "%", 'uncategorized', $post_link);
+        $post_link = str_replace("%" . $taxonomy_slug . "%", 'uncategorized', $post_link);
       };
     };
     return $post_link;
   }
 
-  function tk_register_product_type($menu_name, $name, $slug, $kinds) {
-    tk_custom_post_type_product($menu_name, $name, $slug);
-    tk_custom_taxonomy_product_kind($name, $slug);
-    tk_custom_taxonomy_add_terms($slug, $kinds);
+  public function wp_add() {
+    add_action('init', array($this, 'add_register'));
+    add_filter('post_type_link', array($this, 'add_permalink_filter'), 10, 4);
   }
 
-//Access functions
-  function tk_post_type_name($slug) {
-    return substr($slug, 0, 3) . "_product";
-  }
-
-  function tk_taxonomy_name($slug, $post_name = false) {
-    if ($post_name !== false) {
-      return $post_name . "_kind";
-    } else {
-      return tk_post_type_name($slug) . "_kind";
-    };
-  }
-
-  function tk_get_products() {
-    return get_post_types( ['description'  => 'Product',], 'objects' );
-  };
-
-  function tk_get_current_product($current_post = NULL) {
-    global $post;
-    $current_post = $current_post ?? $post;
-    $products_array = get_post_types(['name' => get_post_type($current_post), 'description'  => 'Product',], 'objects');
-    return ( $products_array !== array() ) ? reset($products_array) : 'not_product';
-  }
-
-  function tk_is_product($current_post = NULL) {
-    return ( tk_get_current_product($current_post) === 'not_product' ) ? false : true; 
-  }
-
-  function tk_get_product_slug($product) {
-    return $product->name;
-  }
-
-  function tk_get_product_label($product) {
-    return $product->labels->all_items;
-  }
-
-  function tk_get_product_kinds($product) {
-    return get_terms([
-      'taxonomy'    => tk_taxonomy_name('', tk_get_product_slug($product)),
-      'hide_empty'  => false,
-      'order'       => 'id',
-      'orderby'     => 'ASC',
-    ]);
-  }
-
-  function tk_get_current_product_kind($current_post = NULL) {
-    global $post;
-    $current_post = $current_post ?? $post;
-    if ( tk_is_product($current_post) === true ) {
-      $product = tk_get_current_product($current_post);
-      $product_kinds_array = get_the_terms( $current_post, tk_taxonomy_name('', tk_get_product_slug($product)) );
-      return ( $product_kinds_array !== array() ) ? reset($product_kinds_array) : 'not_product_kind';
-    } else {
-      return 'not_product_kind';
-    };
-  }
-
-  function tk_is_product_kind($current_post = NULL) {
-    return ( tk_get_current_product_kind($current_post) === 'not_product_kind' ) ? false : true; 
-  }
-
-  function tk_get_product_kind_slug($product_kind) {
-    return $product_kind->slug;
-  }
-
-  function tk_get_product_kind_label($product_kind) {
-    return $product_kind->name;
-  }
-//Content functions
-  function tk_get_folder_media($path) {
-    $folders = wp_rml_objects();
-    $picture_folder = wp_rml_get_object_by_id( _wp_rml_root() );
-    foreach ( $folders as $folder ) {
-      if ( is_rml_folder( $folder ) === true ) {
-        $folder_path = urldecode($folder->getPath());
-        if ( $folder_path == $path) {
-          $picture_folder = $folder;
-          break;
-        };
-      };
-    };
-    return wp_rml_get_attachments( $picture_folder->getId() );
-  }
-
-  function tk_get_post_media($parentURL) {
-    return tk_get_folder_media($parentURL . '/' . get_the_title());
-  }
-
-  function tk_get_product_media() {
-    if ( tk_is_product() && tk_is_product_kind() ){
-      $parentURL = tk_get_product_label(tk_get_current_product()) . "/" . tk_get_product_kind_label(tk_get_current_product_kind());
-      return tk_get_post_media($parentURL);
-    } else {
-      return 'Error! Post is not a product.';
-    };
-  }
+}
 ?>
+
+
 

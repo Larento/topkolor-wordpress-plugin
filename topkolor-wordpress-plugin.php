@@ -8,8 +8,11 @@
  * License: GNU General Public License v2 or later
  */
 
+use tk\product;
+
 include_once(plugin_dir_path(__FILE__) . '/product.php');
 include_once(plugin_dir_path(__FILE__) . '/tk_REST_Controller.php');
+include_once(plugin_dir_path(__FILE__) . '/func.php');
 
 $product_types = [
   'Терраццо'            => [
@@ -47,7 +50,7 @@ $product_types = [
   ],
 ];
 
-$tk_register = [];
+/* $tk_register = [];
 $tk_permalinks_filter = [];
 
 foreach ($product_types as $key => $type) {
@@ -69,6 +72,15 @@ foreach ($tk_register as $register_func) {
 
 foreach ($tk_permalinks_filter as $filter_func) {
   add_filter('post_type_link', $filter_func, 10, 4);
+} */
+use tk;
+foreach ( $product_types as $key => $type ) {
+  $label = $type['name'];
+  $url_slug = $type['slug'];
+  $kinds = $type['kinds'];
+  $archive_name = $key;
+  $tk_product_types[$key] = New tk\product( $label, $url_slug, $archive_name, $kinds );
+  $tk_product_types[$key]->wp_add();  
 }
 
 add_action( 'rest_api_init', 'prefix_register_my_rest_routes' );
