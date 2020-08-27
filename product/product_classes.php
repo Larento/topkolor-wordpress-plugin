@@ -2,7 +2,7 @@
 namespace tk\classes;
 
 class product_kind {
-  public \WP_Term $wp_object;
+  public ?\WP_Term $wp_object;
   public string $label;
   public string $slug;
 
