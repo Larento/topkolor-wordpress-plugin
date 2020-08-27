@@ -3,7 +3,7 @@ namespace tk\functions;
 use \tk\classes\product as product;
 
 function register_products( string $json_path ) {
-  $product_types = json_decode( file_get_contents($json_path) );
+  $product_types = json_decode( file_get_contents($json_path), true );
   foreach ( $product_types as $type ) {
     $registered_types[] = new product( $type['label'], $type['slug'], $type['name'], $type['kinds'] ); 
   }
