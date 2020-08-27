@@ -1,7 +1,7 @@
 <?php
 namespace tk\functions;
 
-function folder_media( $path ) {
+function folder_media($path) {
   $folders = \wp_rml_objects();
   $picture_folder = \wp_rml_get_object_by_id( \_wp_rml_root() );
   foreach ( $folders as $folder ) {
@@ -16,6 +16,6 @@ function folder_media( $path ) {
   return \wp_rml_get_attachments( $picture_folder->getId() );
 }
 
-function post_media( $parentURL ) {
+function post_media($parentURL) {
   return folder_media( $parentURL . '/' . get_the_title() );
 }
