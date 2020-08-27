@@ -43,7 +43,7 @@ function current_product_kind( ?\WP_Post $current_post = null ) {
       return 'no_product_kind';
     }
     foreach ( $product->taxonomy->kinds as $this_kind ) {
-      if ( $kind === $this_kind->wp_object ) {
+      if ( $kind == $this_kind->wp_object ) {
         return $this_kind;
       }
     }
@@ -58,8 +58,6 @@ function is_product_kind( ?\WP_Post $current_post = null ) {
 
 function product_media() {
   if ( is_product() && is_product_kind() ){
-    echo print_r(current_product());
-    echo print_r(current_product_kind());
     $parentURL = current_product()->archive_name . "/" . current_product_kind()->label;
     return post_media($parentURL);
   } else {
