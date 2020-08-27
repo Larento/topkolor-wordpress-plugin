@@ -1,6 +1,8 @@
 <?php
+namespace tk\classes;
+use \tk\functions as tk;
 
-class tk_products_custom_route extends WP_REST_Controller {
+class product_rest_controller extends \WP_REST_Controller {
  
   /**
    * Register the routes for the objects of the controller.
@@ -11,7 +13,7 @@ class tk_products_custom_route extends WP_REST_Controller {
     $base = 'functions';
     register_rest_route( $namespace, '/' . $base . '/get_request_form_params/(?P<post_id>\d+)', array(
       array(
-        'methods'             => WP_REST_Server::READABLE,
+        'methods'             => \WP_REST_Server::READABLE,
         'callback'            => array( $this, 'get_request_form_params' ),
         'permission_callback' => array( $this, 'get_info_permissions_check' ),
         'args'                => [
@@ -35,25 +37,25 @@ class tk_products_custom_route extends WP_REST_Controller {
     $params = $request->get_params();
     $item['id'] = $params['post_id'];
     $post = get_post($item['id']);
-    if (tk_is_product($post) === true) {
-      $item['style'] = tk_get_product_slug( tk_get_current_product($post) );
+    if ( tk\is_product($post) ) {
+      $item['style'] = tk\current_product($post)->slug;
     } else {
       $item['style'] = 'none';
     }
-    if (tk_is_product_kind($post) === true) {
+    if ( tk\is_product_kind($post) ) {
       if ( is_post_type_archive($post) === true ) {
         $item['kind'] = 'none';
       } else {
-        $item['kind'] = tk_get_product_kind_slug( tk_get_current_product_kind($post) );
+        $item['kind'] = tk\current_product_kind($post)->slug;
       }
     } else {
       $item['kind'] = 'none';
     }
     $data = $this->prepare_item_for_response( $item, $request );
-    if ( $post !== NULL ) {
-      return new WP_REST_Response( $data, 200 );
+    if ( $post !== null ) {
+      return new \WP_REST_Response( $data, 200 );
     } else {
-      return new WP_Error( 'Error!', __( 'Post does not exist.', 'text-domain' ) );;
+      return new \WP_Error( 'Error!', __( 'Post does not exist.', 'text-domain' ) );
     }
   }
 

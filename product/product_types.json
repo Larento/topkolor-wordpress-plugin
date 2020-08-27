@@ -1,0 +1,38 @@
+{
+  "Терраццо": {
+    "name": "Терраццо",
+    "label": "Terrazzo",
+    "slug": "terrazzo",
+    "kinds": {
+      "Полы": "floors",
+      "Столешницы": "countertops",
+      "Подоконники": "window-sills",
+      "Раковины": "sinks",
+      "Панели": "panels"
+    }
+  },
+
+  "Декоративный бетон": {
+    "name": "Декоративный бетон",
+    "label": "Decorative Concrete",
+    "slug": "decorative-concrete",
+    "kinds": {
+      "Полы": "floors",
+      "Столешницы": "countertops",
+      "Подоконники": "window-sills",
+      "Раковины": "sinks",
+      "Панели": "panels"
+    }
+  },
+    
+  "Микроцемент": {
+    "name": "Микроцемент",
+    "label": "Micro Concrete",
+    "slug": "micro-concrete",
+    "kinds": {
+      "Напольные покрытия": "floor-coverings",
+      "Настенные покрытия": "wall-coverings",
+      "Элементы интерьера": "interior-elements"
+    }
+  } 
+}

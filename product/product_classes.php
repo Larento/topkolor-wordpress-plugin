@@ -1,10 +1,10 @@
 <?php
-namespace tk;
+namespace tk\classes;
 
 class product_kind {
-  public $wp_object;
-  public $label;
-  public $slug;
+  public \WP_Term $wp_object;
+  public string $label;
+  public string $slug;
 
   public function __construct( string $label, string $slug, string $taxonomy_slug ) {
     $this->label = $label;
@@ -25,10 +25,10 @@ class product_kind {
 }
 
 class product_taxonomy {
-  public $wp_object;
-  public $slug;
-  public $url_slug;
-  public $kinds;
+  public ?\WP_Taxonomy $wp_object;
+  public string $slug;
+  public string $url_slug;
+  public ?array $kinds;
 
   public function __construct( string $label, string $slug, string $url_slug, array $kinds ) {
     $this->slug = $slug;
@@ -71,13 +71,13 @@ class product_taxonomy {
 }
 
 class product {
-  public $wp_object;
-  public $label;
-  public $slug;
-  public $url_slug;
-  public $archive_name;
-  public $taxonomy;
-  public $kinds;
+  public ?\WP_Post_Type $wp_object;
+  public string $label;
+  public string $slug;
+  public string $url_slug;
+  public string $archive_name;
+  public product_taxonomy $taxonomy;
+  public array $kinds;
 
   public function __construct( string $label, string $url_slug, string $archive_name, array $kinds ) {
     $this->label = $label;
@@ -85,6 +85,7 @@ class product {
     $this->archive_name = $archive_name;
     $this->kinds = $kinds;
     $this->slug = substr( $this->url_slug, 0, 3 ) . "_product";
+    $this->wp_add();
   }
 
   private function register ( string $label, string $slug, string $url_slug, string $taxonomy_slug, string $archive_name) {
@@ -134,13 +135,16 @@ class product {
     return $post_link;
   }
 
-  public function wp_add() {
+  private function wp_add() {
     add_action('init', array($this, 'add_register'));
     add_filter('post_type_link', array($this, 'add_permalink_filter'), 10, 4);
   }
 
+  public function wp_remove() {
+    remove_action('init', array($this, 'add_register'));
+    remove_filter('post_type_link', array($this, 'add_permalink_filter'), 10, 4);
+  } 
 }
-?>
 
 
 
