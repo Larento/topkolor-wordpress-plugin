@@ -11,10 +11,8 @@ function get_current_post( ?\WP_Post $current_post = null ) {
   return $current_post;
 }
 
-function create_rml_folder( string $name, string $parentID ) {
-  $ID = \wp_rml_create_or_return_existing_id( $name, $parentID, 0 );
-  \wp_rml_structure_reset();
-  return $ID;
+function create_rml_folder( string $name, ?int $parentID ) {
+  return \wp_rml_create_or_return_existing_id( $name, $parentID, 0 );
 }
 
 function folder_media( string $path ) {
@@ -32,6 +30,7 @@ function folder_media( string $path ) {
   return \wp_rml_get_attachments( $picture_folder->getId() );
 }
 
-function post_media(string $parentURL ) {
-  return folder_media( $parentURL . '/' . get_the_title() );
+function post_media(string $parentURL, ?\WP_Post $post = null ) {
+  $post = get_current_post($post);
+  return folder_media( $parentURL . '/' . get_the_title($post) );
 }

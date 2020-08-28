@@ -59,15 +59,12 @@ function products_init() {
   foreach ( $products as $product ) {
     $product_types[] = $product->slug;
   }
-  $args = [
-    'post_type' => $product_types,
-  ];
+  $args = [ 'post_type' => $product_types ];
   $products_query = new \WP_Query($args);
   if ( $products_query->have_posts() ) {
     while ( $products_query->have_posts() ) {
       $products_query->the_post();
-      echo "I'm a girrafe";
-      do_action( get_handle('products_init_loop') );
+      do_action( get_handle('products_init_loop'), get_post() );
     }
   } else {
     return false;
@@ -81,33 +78,27 @@ function action_init() {
   add_action( get_handle('products_init_loop'), get_handle('set_product_thumbnail') );
 }
 
-function rml_folder_path( ?\WP_Post $post = null ) {
-  $post = get_current_post($post);
-  if ( is_product($post)  )
-  $product = current_product($post);
+function set_product_folder( \WP_Post $post ) {
   $kind = current_product_kind($post);
-  return $product->archive_name . '/' . $kind->label . '/' . get_the_title($post);
+  create_rml_folder( get_the_title($post), $kind->folderID );
 }
 
-function set_product_folder() {
-  create_rml_folder( get_the_title(), current_product_kind()->folderID );
-}
-
-function set_product_thumbnail() {
-  if ( has_post_thumbnail() ) {
-    $post = get_post();
-    delete_post_thumbnail($post);
+function set_product_thumbnail( \WP_Post $post ) {
+  $attachments = product_media($post);
+  $new_thumbnail_ID = reset($attachments);
+  if ( has_post_thumbnail($post) ) {
+    $thumbnail_ID = get_post_thumbnail_id($post);
+    if ( $new_thumbnail_ID !== $thumbnail_ID ) {
+        delete_post_thumbnail($post);
+        set_post_thumbnail( $post, $new_thumbnail_ID );
+    }
+  } else {
+      set_post_thumbnail( $post, $new_thumbnail_ID );
   }
-  $attachments = product_media();
-  set_post_thumbnail( the_ID(), reset($attachments) );
 }
 
 function product_media( ?\WP_Post $post = null ) {
   $post = get_current_post($post);
-  if ( is_product($post) && is_product_kind($post) ){
-    $parentURL = current_product($post)->archive_name . "/" . current_product_kind($post)->label;
-    return post_media($parentURL);
-  } else {
-    return 'Error! Post is not a product or does not have a valid kind.';
-  };
+  $parentURL = current_product($post)->archive_name . "/" . current_product_kind($post)->label;
+  return post_media( $parentURL, $post );
 }
