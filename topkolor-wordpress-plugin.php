@@ -2,21 +2,22 @@
 /**
  * Plugin Name: TOPKOLOR Plugin
  * Author: Larik
- * Version: 0.1.2
+ * Version: 0.1.3
  * GitHub Plugin URI: https://github.com/Larento/topkolor-wordpress-plugin
  * License: GNU General Public License v2 or later
  */
 use \tk\functions as tk;
 
-include_once( plugin_dir_path(__FILE__) . '/functions.php' );
-include_once( plugin_dir_path(__FILE__) . '/product/product_classes.php' );
-include_once( plugin_dir_path(__FILE__) . '/product/product_functions.php' );
-include_once( plugin_dir_path(__FILE__) . '/product/product_rest_controller.php' );
+
 
 $tk_products = [];
 
 add_action ( 'plugins_loaded', 'load_plugin');
 function load_plugin() {
+  include_once( plugin_dir_path(__FILE__) . '/functions.php' );
+  include_once( plugin_dir_path(__FILE__) . '/product/product_classes.php' );
+  include_once( plugin_dir_path(__FILE__) . '/product/product_functions.php' );
+  include_once( plugin_dir_path(__FILE__) . '/product/product_rest_controller.php' );
   global $tk_products;
   $tk_products = tk\register_products( plugin_dir_path(__FILE__) . '/product/product_types.json' );
 
