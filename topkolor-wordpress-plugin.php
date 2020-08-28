@@ -2,7 +2,7 @@
 /**
  * Plugin Name: TOPKOLOR Plugin
  * Author: Larik
- * Version: 0.1.1
+ * Version: 0.1.2
  * GitHub Plugin URI: https://github.com/Larento/topkolor-wordpress-plugin
  * License: GNU General Public License v2 or later
  */
@@ -13,8 +13,11 @@ include_once( plugin_dir_path(__FILE__) . '/product/product_classes.php' );
 include_once( plugin_dir_path(__FILE__) . '/product/product_functions.php' );
 include_once( plugin_dir_path(__FILE__) . '/product/product_rest_controller.php' );
 
-add_action ( 'TOPKOLOR Plugin', 'load_plugin', 999);
+$tk_products = [];
+
+add_action ( 'plugins_loaded', 'load_plugin');
 function load_plugin() {
+  global $tk_products;
   $tk_products = tk\register_products( plugin_dir_path(__FILE__) . '/product/product_types.json' );
 
   tk\products_init();
