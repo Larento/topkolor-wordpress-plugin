@@ -118,13 +118,13 @@ class product {
     return register_post_type( $slug, $args ); 
   }
 
-  private function add_register() {
+  public function add_register() {
     $taxonomy_slug = $this->slug . "_kind";
     $this->wp_object = $this->register( $this->label, $this->slug, $this->url_slug, $taxonomy_slug, $this->archive_name );
     $this->taxonomy = new product_taxonomy( $this->label, $taxonomy_slug, $this->url_slug, $this->kinds );
   }
 
-  private function add_permalink_filter($post_link, $post, $leavename, $sample) {
+  public function add_permalink_filter($post_link, $post, $leavename, $sample) {
     $taxonomy_slug = $this->slug . "_kind";
     if ( strpos($post_link, "%" . $taxonomy_slug . "%") !== false ) {
       $taxonomy_terms = get_the_terms($post->ID, $taxonomy_slug);
