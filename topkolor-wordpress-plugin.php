@@ -8,12 +8,13 @@
  */
 use \tk\functions as tk;
 
+include_once( plugin_dir_path(__FILE__) . '/functions.php' );
+include_once( plugin_dir_path(__FILE__) . '/product/product_classes.php' );
+include_once( plugin_dir_path(__FILE__) . '/product/product_functions.php' );
+include_once( plugin_dir_path(__FILE__) . '/product/product_rest_controller.php' );
+
 add_action ( 'TOPKOLOR Plugin', tk\get_handle('load_plugin'), 999);
 function load_plugin() {
-  include_once( plugin_dir_path(__FILE__) . '/product/product_classes.php' );
-  include_once( plugin_dir_path(__FILE__) . '/product/product_functions.php' );
-  include_once( plugin_dir_path(__FILE__) . '/product/product_rest_controller.php' );
-  include_once( plugin_dir_path(__FILE__) . '/functions.php' );
   $tk_products = tk\register_products( plugin_dir_path(__FILE__) . '/product/product_types.json' );
 
   tk\products_init();
