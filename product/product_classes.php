@@ -88,7 +88,6 @@ class product {
     $this->kinds = $kinds;
     $this->slug = substr( $this->url_slug, 0, 3 ) . "_product";
     $this->wp_add();
-    $this->set_folders();
   }
 
   private function register ( string $label, string $slug, string $url_slug, string $taxonomy_slug, string $archive_name) {
@@ -141,6 +140,7 @@ class product {
   private function wp_add() {
     add_action('init', array($this, 'add_register'));
     add_filter('post_type_link', array($this, 'add_permalink_filter'), 10, 4);
+    add_action('init', array($this, 'set_folders'), 99);
   }
 
   public function wp_remove() {
