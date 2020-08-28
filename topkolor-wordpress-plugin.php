@@ -10,15 +10,15 @@ use \tk\functions as tk;
 
 
 
-$tk_products = [];
+// $tk_products = [];
 
-add_action ( 'plugins_loaded', 'load_plugin');
-function load_plugin() {
+// add_action ( 'plugins_loaded', 'load_plugin');
+// function load_plugin() {
   include_once( plugin_dir_path(__FILE__) . '/functions.php' );
   include_once( plugin_dir_path(__FILE__) . '/product/product_classes.php' );
   include_once( plugin_dir_path(__FILE__) . '/product/product_functions.php' );
   include_once( plugin_dir_path(__FILE__) . '/product/product_rest_controller.php' );
-  global $tk_products;
+  // global $tk_products;
   $tk_products = tk\register_products( plugin_dir_path(__FILE__) . '/product/product_types.json' );
 
   tk\products_init();
@@ -27,5 +27,5 @@ function load_plugin() {
   function prefix_register_my_rest_routes() {
     $controller = new \tk\classes\product_rest_controller();
     $controller->register_routes();
-  }
+  // }
 }

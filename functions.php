@@ -12,7 +12,7 @@ function get_current_post( ?\WP_Post $current_post = null ) {
 }
 
 function create_rml_folder( string $name, string $parentID ) {
-  $ID = \wp_rml_create_or_return_exisiting_id( $name, $parentID, 0 );
+  $ID = \wp_rml_create_or_return_existing_id( $name, $parentID, 0 );
   \wp_rml_structure_reset();
   return $ID;
 }
