@@ -13,7 +13,7 @@ include_once( plugin_dir_path(__FILE__) . '/product/product_classes.php' );
 include_once( plugin_dir_path(__FILE__) . '/product/product_functions.php' );
 include_once( plugin_dir_path(__FILE__) . '/product/product_rest_controller.php' );
 
-add_action ( 'TOPKOLOR Plugin', tk\get_handle('load_plugin'), 999);
+add_action ( 'TOPKOLOR Plugin', 'load_plugin', 999);
 function load_plugin() {
   $tk_products = tk\register_products( plugin_dir_path(__FILE__) . '/product/product_types.json' );
 
