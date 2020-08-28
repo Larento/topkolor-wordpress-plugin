@@ -5,7 +5,7 @@ class product_kind {
   public ?\WP_Term $wp_object;
   public string $label;
   public string $slug;
-  public ?int $folderID = null;
+  public ?int $folderID;
 
   public function __construct( string $label, string $slug, string $taxonomy_slug ) {
     $this->label = $label;
@@ -79,7 +79,7 @@ class product {
   public string $archive_name;
   public product_taxonomy $taxonomy;
   private array $kinds;
-  public ?int $folderID = null;
+  public ?int $folderID;
 
   public function __construct( string $label, string $url_slug, string $archive_name, array $kinds ) {
     $this->label = $label;
