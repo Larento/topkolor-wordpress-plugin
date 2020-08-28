@@ -5,6 +5,7 @@ class product_kind {
   public ?\WP_Term $wp_object;
   public string $label;
   public string $slug;
+  public ?int $folderID = null;
 
   public function __construct( string $label, string $slug, string $taxonomy_slug ) {
     $this->label = $label;
@@ -77,7 +78,8 @@ class product {
   public string $url_slug;
   public string $archive_name;
   public product_taxonomy $taxonomy;
-  public array $kinds;
+  private array $kinds;
+  public ?int $folderID = null;
 
   public function __construct( string $label, string $url_slug, string $archive_name, array $kinds ) {
     $this->label = $label;
@@ -86,6 +88,7 @@ class product {
     $this->kinds = $kinds;
     $this->slug = substr( $this->url_slug, 0, 3 ) . "_product";
     $this->wp_add();
+    $this->set_folders();
   }
 
   private function register ( string $label, string $slug, string $url_slug, string $taxonomy_slug, string $archive_name) {
@@ -116,13 +119,13 @@ class product {
     return register_post_type( $slug, $args ); 
   }
 
-  public function add_register() {
+  private function add_register() {
     $taxonomy_slug = $this->slug . "_kind";
     $this->wp_object = $this->register( $this->label, $this->slug, $this->url_slug, $taxonomy_slug, $this->archive_name );
     $this->taxonomy = new product_taxonomy( $this->label, $taxonomy_slug, $this->url_slug, $this->kinds );
   }
 
-  public function add_permalink_filter($post_link, $post, $leavename, $sample) {
+  private function add_permalink_filter($post_link, $post, $leavename, $sample) {
     $taxonomy_slug = $this->slug . "_kind";
     if ( strpos($post_link, "%" . $taxonomy_slug . "%") !== false ) {
       $taxonomy_terms = get_the_terms($post->ID, $taxonomy_slug);
@@ -143,7 +146,14 @@ class product {
   public function wp_remove() {
     remove_action('init', array($this, 'add_register'));
     remove_filter('post_type_link', array($this, 'add_permalink_filter'), 10, 4);
-  } 
+  }
+
+  private function set_folders() {
+    $this->folderID = \tk\functions\create_rml_folder( $this->archive_name, \_wp_rml_root() );
+    foreach ( $this->taxonomy->kinds as $kind ) {
+      $kind->folderID = \tk\functions\create_rml_folder( $kind->label, $this->folderID );
+    }
+  }
 }
 
 

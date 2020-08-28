@@ -15,6 +15,8 @@ include_once( plugin_dir_path(__FILE__) . '/functions.php' );
 
 $tk_products = tk\register_products( plugin_dir_path(__FILE__) . '/product/product_types.json' );
 
+tk\products_init();
+
 add_action( 'rest_api_init', 'prefix_register_my_rest_routes' );
 function prefix_register_my_rest_routes() {
 	$controller = new \tk\classes\product_rest_controller();

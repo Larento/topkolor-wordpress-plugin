@@ -15,28 +15,26 @@ function get_products() {
   return $tk_products;
 }
 
-function current_product( ?\WP_Post $current_post = null ) {
-  global $post;
-  $current_post = $current_post ?? $post;
+function current_product( ?\WP_Post $post = null ) {
+  $post = get_current_post($post);
   $products = get_products();
   foreach ( $products as $product ) {
-    if ( get_post_type($current_post) === $product->slug ) {
+    if ( get_post_type($post) === $product->slug ) {
       return $product;
     }
   }
   return 'not_product';
 }
 
-function is_product( ?\WP_Post $current_post = null ) {
-  return ( current_product($current_post) === 'not_product' ) ? false : true; 
+function is_product( ?\WP_Post $post = null ) {
+  return ( current_product($post) === 'not_product' ) ? false : true; 
 }
 
-function current_product_kind( ?\WP_Post $current_post = null ) {
-  global $post;
-  $current_post = $current_post ?? $post;
-  if ( is_product($current_post) ) {
-    $product = current_product($current_post);
-    $kind = get_the_terms( $current_post, $product->taxonomy->slug );
+function current_product_kind( ?\WP_Post $post = null ) {
+  $post = get_current_post($post);
+  if ( is_product($post) ) {
+    $product = current_product($post);
+    $kind = get_the_terms( $post, $product->taxonomy->slug );
     if ( is_array($kind) ) {
       $kind = reset($kind);
     } else {
@@ -49,16 +47,63 @@ function current_product_kind( ?\WP_Post $current_post = null ) {
     }
   } else {
     return 'no_product_kind';
-  };
+  }
 }
 
-function is_product_kind( ?\WP_Post $current_post = null ) {
-  return ( current_product_kind($current_post) === 'no_product_kind' ) ? false : true; 
+function is_product_kind( ?\WP_Post $post = null ) {
+  return ( current_product_kind($post) === 'no_product_kind' ) ? false : true; 
 }
 
-function product_media() {
-  if ( is_product() && is_product_kind() ){
-    $parentURL = current_product()->archive_name . "/" . current_product_kind()->label;
+function products_init() {
+  $products = get_products();
+  foreach ( $products as $product ) {
+    $product_types[] = $product->slug;
+  }
+  $args = [
+    'post_type' => $product_types,
+  ];
+  $products_query = new \WP_Query($args);
+  if ( $products_query->have_posts() ) {
+    while ( have_posts() ) {
+      the_post();
+      do_action( get_handle('products_init_loop') );
+    }
+  } else {
+    return false;
+  }
+  wp_reset_postdata();
+  return true;
+}
+
+function action_init() {
+  add_action( get_handle('products_init_loop'), get_handle('set_product_folder') );
+  add_action( get_handle('products_init_loop'), get_handle('set_product_thumbnail') );
+}
+
+function rml_folder_path( ?\WP_Post $post = null ) {
+  $post = get_current_post($post);
+  if ( is_product($post)  )
+  $product = current_product($post);
+  $kind = current_product_kind($post);
+  return $product->archive_name . '/' . $kind->label . '/' . get_the_title($post);
+}
+
+function set_product_folder() {
+  create_rml_folder( get_the_title(), current_product_kind()->folderID );
+}
+
+function set_product_thumbnail() {
+  $thumbnail = get_the_post_thumbnail();
+  if ( $thumbnail === null ) {
+    $attachments = product_media();
+    set_post_thumbnail( the_ID(), reset($attachments) );
+  }
+}
+
+function product_media( ?\WP_Post $post = null ) {
+  $post = get_current_post($post);
+  if ( is_product($post) && is_product_kind($post) ){
+    $parentURL = current_product($post)->archive_name . "/" . current_product_kind($post)->label;
     return post_media($parentURL);
   } else {
     return 'Error! Post is not a product or does not have a valid kind.';
