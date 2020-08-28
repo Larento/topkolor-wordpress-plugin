@@ -93,11 +93,12 @@ function set_product_folder() {
 }
 
 function set_product_thumbnail() {
-  $thumbnail = get_the_post_thumbnail();
-  if ( $thumbnail === null ) {
-    $attachments = product_media();
-    set_post_thumbnail( the_ID(), reset($attachments) );
+  if ( has_post_thumbnail() ) {
+    $post = get_post();
+    delete_post_thumbnail($post);
   }
+  $attachments = product_media();
+  set_post_thumbnail( the_ID(), reset($attachments) );
 }
 
 function product_media( ?\WP_Post $post = null ) {

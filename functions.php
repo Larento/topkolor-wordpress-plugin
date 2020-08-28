@@ -6,7 +6,7 @@ function get_handle($handle) {
 }
 
 function get_current_post( ?\WP_Post $current_post = null ) {
-  global $post;
+  $post = get_post();
   $current_post = $current_post ?? $post;
   return $current_post;
 }
