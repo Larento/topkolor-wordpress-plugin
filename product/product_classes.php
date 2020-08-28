@@ -148,7 +148,7 @@ class product {
     remove_filter('post_type_link', array($this, 'add_permalink_filter'), 10, 4);
   }
 
-  private function set_folders() {
+  public function set_folders() {
     $this->folderID = \tk\functions\create_rml_folder( $this->archive_name, \_wp_rml_root() );
     foreach ( $this->taxonomy->kinds as $kind ) {
       $kind->folderID = \tk\functions\create_rml_folder( $kind->label, $this->folderID );
