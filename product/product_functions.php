@@ -65,7 +65,7 @@ function products_init() {
   $products_query = new \WP_Query($args);
   if ( $products_query->have_posts() ) {
     while ( $products_query->have_posts() ) {
-      the_post();
+      $products_query->the_post();
       echo "I'm a girrafe";
       do_action( get_handle('products_init_loop') );
     }
@@ -77,8 +77,8 @@ function products_init() {
 }
 
 function action_init() {
-  //add_action( get_handle('products_init_loop'), get_handle('set_product_folder') );
-  //add_action( get_handle('products_init_loop'), get_handle('set_product_thumbnail') );
+  add_action( get_handle('products_init_loop'), get_handle('set_product_folder') );
+  add_action( get_handle('products_init_loop'), get_handle('set_product_thumbnail') );
 }
 
 function rml_folder_path( ?\WP_Post $post = null ) {
