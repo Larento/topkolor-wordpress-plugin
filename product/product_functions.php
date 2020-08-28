@@ -55,7 +55,6 @@ function is_product_kind( ?\WP_Post $post = null ) {
 }
 
 function products_init() {
-  add_action( 'init', get_handle('action_init') );
   $products = get_products();
   foreach ( $products as $product ) {
     $product_types[] = $product->slug;
@@ -67,6 +66,7 @@ function products_init() {
   if ( $products_query->have_posts() ) {
     while ( $products_query->have_posts() ) {
       the_post();
+      echo "I'm a girrafe";
       do_action( get_handle('products_init_loop') );
     }
   } else {
@@ -77,7 +77,7 @@ function products_init() {
 }
 
 function action_init() {
-  add_action( get_handle('products_init_loop'), get_handle('set_product_folder') );
+  //add_action( get_handle('products_init_loop'), get_handle('set_product_folder') );
   //add_action( get_handle('products_init_loop'), get_handle('set_product_thumbnail') );
 }
 

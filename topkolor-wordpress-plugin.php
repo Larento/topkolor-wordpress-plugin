@@ -2,7 +2,7 @@
 /**
  * Plugin Name: TOPKOLOR Plugin
  * Author: Larik
- * Version: 0.1.9
+ * Version: 0.2.0
  * GitHub Plugin URI: https://github.com/Larento/topkolor-wordpress-plugin
  * License: GNU General Public License v2 or later
  */
@@ -15,6 +15,7 @@ include_once( plugin_dir_path(__FILE__) . '/product/product_rest_controller.php'
 
 $tk_products = tk\register_products( plugin_dir_path(__FILE__) . '/product/product_types.json' );
 
+add_action( 'init', tk\get_handle('action_init') );
 add_action( 'init', tk\get_handle('products_init') );
 
 add_action( 'rest_api_init', 'prefix_register_my_rest_routes' );
