@@ -2,7 +2,7 @@
 /**
  * Plugin Name: TOPKOLOR Plugin
  * Author: Larik
- * Version: 0.1.5
+ * Version: 0.1.6
  * GitHub Plugin URI: https://github.com/Larento/topkolor-wordpress-plugin
  * License: GNU General Public License v2 or later
  */
@@ -27,5 +27,5 @@ use \tk\functions as tk;
   function prefix_register_my_rest_routes() {
     $controller = new \tk\classes\product_rest_controller();
     $controller->register_routes();
-  // }
-}
+  }
+//}
