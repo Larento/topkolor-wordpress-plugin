@@ -140,7 +140,7 @@ class product {
   private function wp_add() {
     add_action('init', array($this, 'add_register'));
     add_filter('post_type_link', array($this, 'add_permalink_filter'), 10, 4);
-    add_action('init', array($this, 'set_folders'), 99);
+    add_action('init', array($this, 'set_folders'));
   }
 
   public function wp_remove() {
