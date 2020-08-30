@@ -1,6 +1,9 @@
 <?php
 namespace tk\classes;
 
+use function tk\functions\current_product_kind;
+use function tk\functions\is_product_kind;
+
 class product_kind {
   public ?\WP_Term $wp_object;
   public string $label;
@@ -101,7 +104,7 @@ class product {
       'all_items'         => __( $archive_name ),
       'view_item'         => __( 'View Product' ),
       'search_items'      => __( 'Search Products' ), 
-      'menu_name'         => __("$label Products"),
+      'menu_name'         => __( "$label Products" ),
     ];
     $args = [
       'labels'            => $labels,
@@ -111,7 +114,7 @@ class product {
       'supports'          => ['title', 'editor', 'thumbnail', 'excerpt'],
       'has_archive'       => $url_slug,
       'rewrite'           => [
-        'slug'              => $url_slug . "/%" . $taxonomy_slug . "%",
+        'slug'              => "$url_slug/%$taxonomy_slug%",
         'with_front'        => false,
       ],
     ];
@@ -124,36 +127,34 @@ class product {
     $this->taxonomy = new product_taxonomy( $this->label, $taxonomy_slug, $this->url_slug, $this->kinds );
   }
 
-  public function add_permalink_filter($post_link, $post, $leavename, $sample) {
-    $taxonomy_slug = $this->slug . "_kind";
-    if ( strpos($post_link, "%" . $taxonomy_slug . "%") !== false ) {
-      $taxonomy_terms = get_the_terms($post->ID, $taxonomy_slug);
-      if ( !empty($taxonomy_terms) ) {
-        $post_link = str_replace("%" . $taxonomy_slug . "%", array_pop($taxonomy_terms)->slug, $post_link);
-      } else {
-        $post_link = str_replace("%" . $taxonomy_slug . "%", 'uncategorized', $post_link);
-      };
-    };
-    return $post_link;
-  }
-
-  private function wp_add() {
-    add_action('init', array($this, 'add_register'));
-    add_filter('post_type_link', array($this, 'add_permalink_filter'), 10, 4);
-    add_action('init', array($this, 'set_folders'));
-  }
-
-  public function wp_remove() {
-    remove_action('init', array($this, 'add_register'));
-    remove_filter('post_type_link', array($this, 'add_permalink_filter'), 10, 4);
-  }
-
   public function set_folders() {
     $this->folderID = \tk\functions\create_rml_folder( $this->archive_name, \_wp_rml_root() );
     foreach ( $this->taxonomy->kinds as $kind ) {
       $kind->folderID = \tk\functions\create_rml_folder( $kind->label, $this->folderID );
     }
   }
+
+  public function add_permalink_filter($post_link, $post, $leavename, $sample) {
+    $taxonomy_slug = $this->taxonomy->slug;
+    $taxonomy_url_slug = "%$taxonomy_slug%";
+    if ( strpos( $post_link, $taxonomy_url_slug ) !== false ) {
+      $kind = current_product_kind($post);
+      if ( is_product_kind($post) ) {
+        $replace = $kind->slug;
+      } else {
+        $replace = 'uncategorized';
+      }
+      $post_link = str_replace( $taxonomy_url_slug, $replace, $post_link );
+    }
+    return $post_link;
+  }
+
+  private function wp_add() {
+    add_action( 'init', [$this, 'add_register'] );
+    add_action( 'init', [$this, 'set_folders'] );
+    add_filter( 'post_type_link', [$this, 'add_permalink_filter'], 10, 4 );
+  }
+
 }
 
 
