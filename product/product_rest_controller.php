@@ -2,6 +2,8 @@
 namespace tk\classes;
 use \tk\functions as tk;
 
+use function tk\functions\is_product;
+
 class product_rest_controller extends \WP_REST_Controller {
  
   /**
