@@ -36,6 +36,16 @@ class product_rest_controller extends \WP_REST_Controller {
         ],
       ],
     );
+
+    register_rest_route( $namespace, "/$base/get_test",
+      [
+        [
+          'methods'             => \WP_REST_Server::READABLE,
+          'callback'            => [ $this, 'get_test' ],
+          'permission_callback' => [ $this, 'get_info_permissions_check' ],
+        ],
+      ],
+    );
   }
 
   /**
@@ -71,6 +81,7 @@ class product_rest_controller extends \WP_REST_Controller {
    * @return WP_Error|WP_REST_Response
    */
   public function get_request_form_params($request) {
+    $start_time = microtime(TRUE);
     $params = $request->get_params();
     $item['id'] = $params['post_id'];
     $post = get_post($item['id']);
@@ -82,6 +93,8 @@ class product_rest_controller extends \WP_REST_Controller {
     if ( tk\is_product_kind($post) && !is_post_type_archive($post)) {
       $item['kind'] = tk\current_product_kind($post)->slug;
     }
+    $end_time = microtime(TRUE);
+    $item['time'] = $end_time - $start_time;
     $data = $this->prepare_item_for_response( $item, $request );
     if ( $post !== null ) {
       return new \WP_REST_Response( $data, 200 );
