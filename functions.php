@@ -2,7 +2,7 @@
 namespace tk\functions;
 
 function get_handle($handle) {
-  return __NAMESPACE__ . '\\' . $handle;
+  return __NAMESPACE__ . "\\$handle";
 }
 
 function get_current_post( ?\WP_Post $current_post = null ) {
@@ -32,5 +32,6 @@ function folder_media( string $path ) {
 
 function post_media(string $parentURL, ?\WP_Post $post = null ) {
   $post = get_current_post($post);
-  return folder_media( $parentURL . '/' . get_the_title($post) );
+  $title = get_the_title($post);
+  return folder_media( "$parentURL/$title" );
 }
