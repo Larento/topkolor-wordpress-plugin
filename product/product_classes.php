@@ -128,7 +128,7 @@ class product {
   }
 
   public function set_folders() {
-    $this->folderID = \tk\functions\create_rml_folder( $this->archive_name );
+    $this->folderID = \tk\functions\create_rml_folder( $this->archive_name, \_wp_rml_root() );
     foreach ( $this->taxonomy->kinds as $kind ) {
       $kind->folderID = \tk\functions\create_rml_folder( $kind->label, $this->folderID );
     }
