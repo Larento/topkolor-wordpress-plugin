@@ -15,6 +15,7 @@ include_once( plugin_dir_path(__FILE__) . '/product/product_rest_controller.php'
 
 $tk_products = tk\register_products( plugin_dir_path(__FILE__) . '/product/product_types.json' );
 
+add_action( 'init', tk\get_handle('register_decorations_folder') );
 add_action( 'init', tk\get_handle('action_init') );
 add_action( 'init', tk\get_handle('products_init') );
 
