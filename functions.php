@@ -35,3 +35,10 @@ function post_media(string $parentURL, ?\WP_Post $post = null ) {
   $title = get_the_title($post);
   return folder_media( "$parentURL/$title" );
 }
+
+function register_decorations_folder( ) {
+  $parent_id = create_rml_folder( 'Оформление', \_wp_rml_root() );
+  create_rml_folder( get_the_title( get_option('page_on_front') ), $parent_id );
+  create_rml_folder( 'Логотипы и иконки', $parent_id );
+  create_rml_folder( 'Фоны', $parent_id );
+}
